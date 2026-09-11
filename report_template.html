@@ -1,0 +1,1453 @@
+<meta charset="utf-8">
+<title>Ideology Fit Inspector</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap">
+
+<style>
+:root{
+  --ground:#fbfbfc; --surface:#ffffff; --surface-2:#f4f5f8;
+  --ink:#151821; --ink-2:#3b4250; --muted:#5d6470; --faint:#8d94a1;
+  --line:#e3e5ea; --line-2:#cfd3dc;
+  --focus:#3b4a6b;
+  --cb:#1C6DB4; --ws:#C25B22; --is:#8E3B78;
+  --ok:#1F7A55; --warn:#A8811A; --crit:#B5443A;
+  --r0:#dfe6ec; --r1:#a9bfcd; --r2:#6d90a6; --r3:#3a5f78;
+  --grid:#eceef2;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --serif:"IBM Plex Serif",Georgia,serif;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --ground:#0f1217; --surface:#161a21; --surface-2:#1c212a;
+  --ink:#e8eaf0; --ink-2:#c2c8d4; --muted:#8f97a6; --faint:#6b7280;
+  --line:#262c36; --line-2:#333b47;
+  --focus:#7f93bd;
+  --cb:#3E8CD4; --ws:#D4783B; --is:#B061A8;
+  --ok:#3E9A73; --warn:#C7A03A; --crit:#D46A5F;
+  --r0:#2d3540; --r1:#455a6b; --r2:#67859c; --r3:#93b1c6;
+  --grid:#20262f;
+}}
+:root[data-theme="dark"]{
+  --ground:#0f1217; --surface:#161a21; --surface-2:#1c212a;
+  --ink:#e8eaf0; --ink-2:#c2c8d4; --muted:#8f97a6; --faint:#6b7280;
+  --line:#262c36; --line-2:#333b47;
+  --focus:#7f93bd;
+  --cb:#3E8CD4; --ws:#D4783B; --is:#B061A8;
+  --ok:#3E9A73; --warn:#C7A03A; --crit:#D46A5F;
+  --r0:#2d3540; --r1:#455a6b; --r2:#67859c; --r3:#93b1c6;
+  --grid:#20262f;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+     font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);font-weight:600;text-wrap:balance;margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.wrap{display:grid;grid-template-columns:190px minmax(0,1fr);gap:44px;
+      max-width:1360px;margin:0 auto;padding:0 32px 96px}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:0;padding:0 18px 64px}
+  .rail{position:static!important;padding-top:0!important;border-right:0!important;
+        margin-bottom:24px}}
+
+/* masthead ------------------------------------------------------------- */
+.mast{border-bottom:1px solid var(--line);margin-bottom:36px;padding:44px 0 26px}
+.mast h1{font-size:34px;letter-spacing:-.015em;line-height:1.12}
+.mast .sub{color:var(--muted);max-width:66ch;margin-top:10px;font-size:15.5px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+        text-transform:uppercase;color:var(--faint);margin-bottom:12px}
+.provenance{display:flex;flex-wrap:wrap;gap:0 26px;margin-top:20px;
+            font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.provenance b{color:var(--ink-2);font-weight:500}
+
+/* rail ----------------------------------------------------------------- */
+.rail{position:sticky;top:0;align-self:start;padding-top:44px;height:100vh;
+      border-right:1px solid var(--line);overflow-y:auto}
+.rail ol{list-style:none;margin:0;padding:0 18px 0 0;
+         counter-reset:sec;display:flex;flex-direction:column;gap:2px}
+.rail a{display:block;padding:5px 0;color:var(--muted);text-decoration:none;
+        font-size:13px;border-left:2px solid transparent;padding-left:12px;
+        margin-left:-14px;transition:color .12s,border-color .12s}
+.rail a:hover{color:var(--ink)}
+.rail a.on{color:var(--ink);border-left-color:var(--ink);font-weight:500}
+.rail .grp{font-family:var(--mono);font-size:10px;letter-spacing:.13em;
+           text-transform:uppercase;color:var(--faint);margin:18px 0 4px 0}
+
+/* sections ------------------------------------------------------------- */
+section{padding-top:46px;scroll-margin-top:20px}
+section > h2{font-size:22px;letter-spacing:-.01em}
+.lede{color:var(--muted);max-width:70ch;margin:8px 0 22px;font-size:14.5px}
+.note{border-left:2px solid var(--line-2);padding:2px 0 2px 14px;color:var(--muted);
+      font-size:13.5px;max-width:72ch;margin:18px 0}
+.note b{color:var(--ink-2);font-weight:600}
+
+/* stat strip ----------------------------------------------------------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));
+       gap:1px;background:var(--line);border:1px solid var(--line);margin:22px 0}
+.stat{background:var(--surface);padding:13px 15px}
+.stat .lab{font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+           text-transform:uppercase;color:var(--faint)}
+.stat .val{font-family:var(--mono);font-size:21px;font-weight:500;margin-top:5px;
+           font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat .sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+
+/* tables --------------------------------------------------------------- */
+.scroll{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:7px 12px;border-bottom:1px solid var(--line);
+      white-space:nowrap}
+thead th{position:sticky;top:0;background:var(--surface-2);z-index:1;
+         font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;
+         text-transform:uppercase;color:var(--muted);font-weight:500;
+         border-bottom:1px solid var(--line-2)}
+th.s{cursor:pointer;user-select:none}
+th.s:hover{color:var(--ink)}
+th.s::after{content:"";opacity:.35;margin-left:5px}
+th.s[data-dir="1"]::after{content:"&#x25B2;";opacity:.9}
+th.s[data-dir="-1"]::after{content:"&#x25BC;";opacity:.9}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+tbody tr:hover{background:var(--surface-2)}
+td.w{white-space:normal;min-width:280px;color:var(--ink-2)}
+.cap{font-size:11.5px;color:var(--faint);margin-top:8px;font-family:var(--mono)}
+
+/* chips / pills -------------------------------------------------------- */
+.chip{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:500;
+      letter-spacing:.06em;padding:1.5px 6px;border-radius:2px;vertical-align:1px}
+.rung0{background:var(--r0);color:#1b2733}.rung1{background:var(--r1);color:#0f1a22}
+.rung2{background:var(--r2);color:#fff}.rung3{background:var(--r3);color:#fff}
+:root[data-theme="dark"] .rung0,:root[data-theme="dark"] .rung1{color:#dfe6ec}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .rung0,
+  :root:not([data-theme="light"]) .rung1{color:#dfe6ec}}
+.idc{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);
+     font-size:11px;font-weight:500}
+.dot{width:9px;height:9px;border-radius:2px;display:inline-block;flex:none}
+.pin{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:var(--ok);
+     border:1px solid currentColor;border-radius:2px;padding:0 3px}
+
+/* controls ------------------------------------------------------------- */
+.ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0 0 14px;
+     padding:10px 12px;background:var(--surface-2);border:1px solid var(--line)}
+.ctl label{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;
+           text-transform:uppercase;color:var(--muted);display:flex;gap:6px;
+           align-items:center;cursor:pointer}
+select,input[type=search]{font-family:var(--mono);font-size:12px;padding:4px 7px;
+  background:var(--surface);color:var(--ink);border:1px solid var(--line-2);
+  border-radius:2px}
+input[type=range]{accent-color:var(--focus);width:120px}
+.seg{display:inline-flex;border:1px solid var(--line-2);border-radius:2px;overflow:hidden}
+.seg button{font-family:var(--mono);font-size:11px;padding:4px 11px;border:0;
+  background:var(--surface);color:var(--muted);cursor:pointer;border-right:1px solid var(--line-2)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--ground)}
+
+/* svg ------------------------------------------------------------------ */
+svg{display:block;max-width:100%}
+.tip{position:fixed;pointer-events:none;z-index:50;background:var(--ink);
+     color:var(--ground);font-family:var(--mono);font-size:11.5px;line-height:1.45;
+     padding:7px 9px;border-radius:3px;max-width:300px;opacity:0;transition:opacity .1s;
+     box-shadow:0 4px 16px rgba(0,0,0,.22)}
+.tip.on{opacity:1}
+.tip b{font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--mono);
+        font-size:11px;color:var(--muted);margin:10px 0 0}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.swatch{width:16px;height:3px;display:inline-block;flex:none}
+
+.panel{border:1px solid var(--line);background:var(--surface);padding:16px}
+.two{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:22px}
+@media(max-width:1040px){.two{grid-template-columns:1fr}}
+.bar-row{display:grid;grid-template-columns:52px 1fr;gap:8px;align-items:center;
+         font-family:var(--mono);font-size:11px;padding:1.5px 0}
+.bar-track{height:11px;background:var(--surface-2);position:relative;display:flex}
+.bar-track i{display:block;height:100%;margin-right:2px}
+.mini{font-family:var(--mono);font-size:10.5px;color:var(--faint)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--line);margin-bottom:16px}
+.tabs button{font-family:var(--sans);font-size:14px;font-weight:500;padding:8px 16px;
+  border:0;border-bottom:2px solid transparent;background:none;color:var(--muted);
+  cursor:pointer;margin-bottom:-1px}
+.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--ink)}
+tbody tr.pick{cursor:pointer}
+tbody tr.sel{background:var(--surface-2);box-shadow:inset 3px 0 0 var(--ink)}
+.units{border:1px solid var(--line);background:var(--surface);margin-top:14px}
+.units header{padding:11px 14px;border-bottom:1px solid var(--line);
+  background:var(--surface-2);display:flex;flex-wrap:wrap;gap:3px 14px;align-items:baseline}
+.units h4{margin:0;font-family:var(--serif);font-size:15px;font-weight:600}
+.units .body{max-height:400px;overflow-y:auto}
+.unit{padding:10px 14px;border-bottom:1px solid var(--line);display:grid;
+  grid-template-columns:minmax(0,1fr) auto;gap:3px 14px}
+.unit:last-child{border-bottom:0}
+.unit p{margin:0;font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.unit .meta{font-family:var(--mono);font-size:10.5px;color:var(--faint);
+  text-align:right;white-space:nowrap}
+.voice{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;
+  padding:0 4px;border-radius:2px;border:1px solid currentColor;margin-left:5px}
+.v0{color:var(--ok)}.v1{color:var(--warn)}.v2{color:var(--muted)}
+.v3{color:var(--crit)}.v4{color:var(--faint)}
+.empty{padding:16px 14px;color:var(--muted);font-size:13.5px;line-height:1.5}
+.desc{white-space:normal;min-width:230px;max-width:400px;color:var(--muted);
+  font-size:12.5px;line-height:1.4}
+.tw{border:1px solid var(--line);background:var(--surface);margin-bottom:10px}
+.tw > .top{padding:11px 14px 9px;display:grid;grid-template-columns:minmax(0,1fr) auto;
+  gap:3px 16px;border-bottom:1px solid var(--line)}
+.tw .txt{margin:0;font-size:14px;line-height:1.5;color:var(--ink)}
+.tw .who{font-family:var(--mono);font-size:10.5px;color:var(--faint);text-align:right;
+  white-space:nowrap}
+.tw table{font-size:12.5px}
+.tw td,.tw th{padding:5px 14px}
+.tw tbody tr:last-child td{border-bottom:0}
+.gapbar{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono)}
+.gapbar i{display:block;height:9px;background:var(--crit);min-width:1px}
+.gapbar i.under{background:var(--cb)}
+button.more{font-family:var(--mono);font-size:12px;padding:7px 16px;cursor:pointer;
+  background:var(--surface);color:var(--ink);border:1px solid var(--line-2);border-radius:2px}
+button.more:hover{background:var(--surface-2)}
+button.more[disabled]{opacity:.45;cursor:default}
+button.conceptbtn{font:inherit;font-family:var(--sans);font-size:12.5px;text-align:left;
+  background:none;border:0;padding:0;margin:0;color:var(--ink);cursor:pointer;
+  border-bottom:1px dotted var(--line-2)}
+button.conceptbtn:hover{border-bottom-color:var(--ink)}
+.pivot{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:9px 13px;
+  margin-bottom:10px;border:1px solid var(--line-2);background:var(--surface-2);
+  font-size:13px;color:var(--ink-2)}
+</style>
+
+<div class="wrap">
+  <nav class="rail" aria-label="Sections">
+    <ol id="rail"></ol>
+  </nav>
+
+  <main>
+    <header class="mast">
+      <div class="kicker">Model fit &#x00B7; v3.2</div>
+      <h1>Ideology Fit Inspector</h1>
+      <p class="sub">Everything <code>fit.py run</code> prints, plus three views the
+        terminal cannot give you: what theory claimed against what the corpus supports,
+        where the extractor and the model disagree, and who the model thinks each actor
+        is.</p>
+      <div class="provenance" id="prov"></div>
+    </header>
+
+    <section id="fit"><h2>The fit</h2>
+      <p class="lede">Each stage adds one layer, warm-started from the last.
+        <b>held-out</b> is the Poisson rate likelihood on held-out cells &#x2014; the predictive
+        number, and the one with no leak to correct for, since v3.2 has no free per-unit
+        parameter.</p>
+      <div class="stats" id="stats"></div>
+      <div class="scroll"><table id="stages"></table></div>
+      <p class="note" id="fitnote"></p>
+    </section>
+
+    <section id="structure"><h2>Theory against the fit</h2>
+      <p class="lede">C1 and C2 are priors in v3.2, not bounds: C1 shifts the mean of an
+        ideology's profile draw by &#x00B1;&#x03B1;, C2 shifts the support of its network up to &#x03C9;. The
+        data is free to disagree with either, and what it does with that freedom is the
+        result. Pick an ideology.</p>
+      <div class="tabs" id="idtabs" role="tablist"></div>
+      <div class="stats" id="idstats"></div>
+      <div class="two" style="margin-top:20px">
+        <div>
+          <div class="ctl">
+            <label>Nodes
+              <select id="nodefilter">
+                <option value="all">all with a position</option>
+                <option value="anchored">anchored by theory (C1)</option>
+                <option value="unmet">anchored but not held</option>
+                <option value="poached">held, anchored elsewhere</option>
+              </select></label>
+          </div>
+          <div class="panel" id="nodebars"></div>
+        </div>
+        <div>
+          <div class="ctl">
+            <span class="mini">Edges</span>
+            <label><input type="checkbox" id="e_lifted" checked> confirmed</label>
+            <label><input type="checkbox" id="e_shared" checked> went to culture</label>
+            <label><input type="checkbox" id="e_inert" checked> unsupported</label>
+            <label><input type="checkbox" id="e_found" checked> found, not in theory</label>
+          </div>
+          <div class="panel"><div id="net"></div>
+            <div class="legend" id="netlegend"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rates"><h2>Extractor against model</h2>
+      <p class="lede">For every actor and node: the rate the extraction implies (codings
+        per unit) against the rate the fitted model predicts. A cell far off the diagonal
+        is either a real surprise about the actor or a bad coding &#x2014; which is what makes
+        this list the hand-checking queue. Sort by <b>log ratio</b> to put the largest
+        disagreements first, then <b>click any row</b> to read the units behind it.</p>
+      <div class="ctl">
+        <label>Actor <select id="r_actor"></select></label>
+        <label>Rung <select id="r_rung"></select></label>
+        <label>Direction <select id="r_dir">
+          <option value="all">both</option>
+          <option value="over">extractor &gt; model</option>
+          <option value="under">model &gt; extractor</option></select></label>
+        <label>Min units <input type="range" id="r_units" min="0" max="500" step="10" value="0">
+          <span class="mini" id="r_units_v">0</span></label>
+        <label><input type="search" id="r_q" placeholder="node or actor&#x2026;" size="14"></label>
+      </div>
+      <div class="two" style="grid-template-columns:minmax(0,420px) minmax(0,1fr)">
+        <div class="panel"><div id="scatter"></div>
+          <div class="legend"><span><span class="swatch" style="background:var(--muted)"></span>
+            one actor &#x00D7; node cell</span><span>diagonal = model agrees with extractor</span></div>
+        </div>
+        <div>
+          <div class="scroll" style="max-height:400px;overflow-y:auto">
+            <table id="ratetbl"></table></div>
+          <p class="cap" id="ratecap"></p>
+          <div class="units" id="unitpanel"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="blocks"><h2>Edge blocks</h2>
+      <p class="lede">C5 admits same-type and adjacent-type pairs and forbids the three
+        rung-skipping ones, so the network has a block structure the theory put there.
+        The matrix is those blocks: pick a layer, then click a block to read its edges.
+        Section 5's warning is what to watch for &#x2014; intra-rung blocks, B&#x2013;B
+        above all, compete with cross-rung edges for the same co-occurrence, and
+        cross-rung structure thins without anything announcing it.</p>
+      <div class="ctl">
+        <label>Layer <select id="b_layer"></select></label>
+        <label>Cell shows <select id="b_metric">
+          <option value="mass">total weight</option>
+          <option value="count">edges above zero</option>
+          <option value="mean">mean weight per live edge</option></select></label>
+        <label><input type="checkbox" id="b_theory"> only links theory named (C2)</label>
+      </div>
+      <div class="two" style="grid-template-columns:minmax(0,430px) minmax(0,1fr)">
+        <div class="panel"><div id="blockmatrix"></div>
+          <div class="legend" id="blocklegend"></div></div>
+        <div>
+          <div id="blockpick"></div>
+          <div class="scroll" style="max-height:480px;overflow-y:auto">
+            <table id="blocktbl"></table></div>
+          <p class="cap" id="blockcap"></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tweets"><h2>By tweet</h2>
+      <p class="lede">One row per extracted concept, with the extractor's confidence
+        beside the model's expectation. The two are on the same scale &#x2014; both are
+        the probability that the concept is present &#x2014; but they are not the same
+        kind of claim: the extractor read <em>this</em> text, while the model knows only
+        who wrote it and when. Every tweet by one actor in one year carries the same
+        expectation, so a large gap is a statement about the actor's rates, not about
+        the model disagreeing with a reading.</p>
+      <div class="ctl">
+        <label>Actor <select id="t_actor"></select></label>
+        <label>Concept <select id="t_node"></select></label>
+        <label>Voice <select id="t_voice"></select></label>
+        <label>Sort <select id="t_sort">
+          <option value="gap">largest gap first</option>
+          <option value="surprise">least expected first</option>
+          <option value="conf">extractor most confident</option>
+          <option value="n">most concepts coded</option>
+          <option value="time">newest period</option></select></label>
+        <label>Min gap <input type="range" id="t_gap" min="0" max="0.95" step="0.05" value="0">
+          <span class="mini" id="t_gap_v">0.00</span></label>
+        <label><input type="search" id="t_q" placeholder="search text&#x2026;" size="18"></label>
+      </div>
+      <div id="tweetfilter"></div>
+      <p class="cap" id="tweetcap"></p>
+      <div id="tweetlist"></div>
+      <div style="margin-top:12px"><button class="more" id="t_more">Show more</button></div>
+    </section>
+
+    <section id="actors"><h2>Actors</h2>
+      <p class="lede">Membership is a softmax over the ideologies plus a background
+        coordinate. <b>background</b> is the share of an actor's speech the model calls
+        unideological; <b>entropy</b> is taken over the ideology margin only, because
+        spread across facets within one ideology is specialisation, not straddling.
+        Pinned actors (C4) have their margin fixed and are what hold the labels in place.</p>
+      <div class="ctl">
+        <label>Group <select id="a_group"></select></label>
+        <label>Sort <select id="a_sort">
+          <option value="units">units</option><option value="entropy">entropy</option>
+          <option value="background">background share</option>
+          <option value="CB">CB</option><option value="WS">WS</option>
+          <option value="IS">IS</option></select></label>
+        <label><input type="checkbox" id="a_pin"> pinned only</label>
+      </div>
+      <div class="scroll"><table id="actortbl"></table></div>
+      <p class="cap" id="actorcap"></p>
+    </section>
+
+    <section id="paper"><h2>Paper analyses</h2>
+      <p class="lede">The four experiments of &#xA7;13, read from <code>exp/</code>. Run
+        them with <code>bash runs.sh</code>; this section is empty until they exist.
+        E1&#x2013;E3 fit CB and IS only &#x2014; whether WS is a component at all is E4's
+        question, so reporting concept rankings from it would presume the answer.</p>
+      <div id="paperbody"></div>
+    </section>
+
+    <section id="diag"><h2>Diagnostics</h2>
+      <p class="lede">The residual statistics, reproduced from the same functions the
+        terminal report prints.</p>
+      <h3 style="font-size:16px;margin-top:26px">Structural coherence (C6)</h3>
+      <p class="note">C<sub>k</sub> is edge mass inside the ideology's own support over
+        mass crossing its boundary, against a null of random supports matched on size,
+        node type and degree quartile. Below the null is a reportable failure, not a
+        fitting error: a component whose structure leaks across its own boundary is either
+        mis-supported or not an ideology by this framework's definition.</p>
+      <div class="scroll"><table id="cohtbl"></table></div>
+
+      <h3 style="font-size:16px;margin-top:30px">Where the association mass sits</h3>
+      <div class="stats" id="emstats"></div>
+      <div class="panel" style="margin-top:14px"><div id="blockchart"></div></div>
+
+      <h3 style="font-size:16px;margin-top:30px">Contestation typology</h3>
+      <div class="panel"><div id="typchart"></div></div>
+
+      <h3 style="font-size:16px;margin-top:30px">Logical incoherence (C3)</h3>
+      <p class="note">Ideologies holding more than one member of an incompatible set &#x2014;
+        what C3 asserts cannot happen. The <b>mass</b> column is the quantity C3 actually
+        constrains: on rare nodes it sits far under &#x03C0;&#x0304;, so the cap as written cannot reach
+        the contradiction.</p>
+      <div class="scroll"><table id="logtbl"></table></div>
+
+      <h3 style="font-size:16px;margin-top:30px">Ladder test (C5)</h3>
+      <p class="note">R above 1 on a rung-skipping pair is evidence against the ladder or,
+        far more often, against a single concept's type assignment. Read a hit as a prompt
+        to revisit T(c) before the ladder.</p>
+      <div class="scroll"><table id="ladtbl"></table></div>
+    </section>
+  </main>
+</div>
+<div class="tip" id="tip"></div>
+
+<script id="D" type="application/json"></script>
+<script>
+(async function(){
+"use strict";
+
+/* Two delivery modes, one page. `report.py build` inlines the data into the tag above
+   for a standalone file that can be mailed or published; `report.py serve` leaves the
+   tag empty and puts report_data.json next to the page, so a refit is picked up by a
+   browser reload instead of a rebuild. */
+async function loadData(){
+  const raw = (document.getElementById("D").textContent || "").trim();
+  if (raw) return JSON.parse(raw);
+  const r = await fetch("report_data.json", {cache:"no-store"});
+  if (!r.ok) throw new Error(`report_data.json \u2014 ${r.status} ${r.statusText}`);
+  return r.json();
+}
+let D;
+try { D = await loadData(); }
+catch (err) {
+  document.querySelector("main").innerHTML =
+    `<div class="panel" style="margin-top:60px"><h2>No data</h2>
+     <p class="lede">${err.message}</p>
+     <p class="note">Run <code>python report.py serve</code> from the project directory,
+     or <code>python report.py build</code> for a standalone file with the data
+     inlined.</p></div>`;
+  throw err;
+}
+const IDS = D.meta.ideologies, RUNGS = D.meta.rungs;
+const PERIODS = D.meta.period_labels || D.meta.periods;
+const IDCOL = k => ["var(--cb)","var(--ws)","var(--is)"][k] || "var(--muted)";
+const $ = s => document.querySelector(s), el = (t,a={},...c) => {
+  const n = document.createElement(t);
+  for (const [k,v] of Object.entries(a)) {
+    if (k === "class") n.className = v; else if (k === "html") n.innerHTML = v;
+    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v);
+  }
+  for (const x of c.flat()) if (x != null) n.append(x.nodeType ? x : String(x));
+  return n;
+};
+const SVGNS = "http://www.w3.org/2000/svg";
+const s = (t,a={}) => { const n = document.createElementNS(SVGNS,t);
+  for (const [k,v] of Object.entries(a)) n.setAttribute(k,v); return n; };
+/* IBM Plex Mono has no U+2096 (subscript k) and no superscript parens, so the
+   Unicode forms of W_k and W^(0) came out as tofu in every mono-set legend. Real
+   <sub>/<sup> renders in any font -- htm() is for the call sites that build DOM
+   nodes, where a string child would be escaped rather than parsed. */
+const htm = h => el("span",{html:h});
+const Wk = "W<sub>k</sub>", W0 = "W<sup>(0)</sup>", Ek = "E<sub>k</sub>";
+const fmt = (x,d=2) => x == null || !isFinite(x) ? "\u2014" : x.toFixed(d);
+const pct = x => x == null ? "\u2014" : (100*x).toFixed(1) + "%";
+const NODE = Object.fromEntries(D.nodes.map((n,i) => [n.id, {...n, i}]));
+
+/* tooltip ------------------------------------------------------------- */
+const tip = $("#tip");
+function showTip(e, html){ tip.innerHTML = html; tip.classList.add("on");
+  const r = tip.getBoundingClientRect();
+  let x = e.clientX + 14, y = e.clientY + 14;
+  if (x + r.width > innerWidth - 8) x = e.clientX - r.width - 14;
+  if (y + r.height > innerHeight - 8) y = e.clientY - r.height - 14;
+  tip.style.left = x + "px"; tip.style.top = y + "px"; }
+const hideTip = () => tip.classList.remove("on");
+function hover(node, html){ node.addEventListener("mousemove", e => showTip(e, html));
+  node.addEventListener("mouseleave", hideTip); }
+
+/* ---------------------------------------------------------------- rail */
+const SECTIONS = [["fit","The fit"],["structure","Theory vs fit"],
+  ["rates","Extractor vs model"],["blocks","Edge blocks"],["tweets","By tweet"],
+  ["actors","Actors"],["paper","Paper analyses"],["diag","Diagnostics"]];
+$("#rail").append(...SECTIONS.map(([id,label]) =>
+  el("li",{}, el("a",{href:"#"+id,"data-s":id}, label))));
+const spy = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) document.querySelectorAll("#rail a").forEach(a =>
+    a.classList.toggle("on", a.dataset.s === e.target.id));
+}), {rootMargin:"-10% 0px -80% 0px"});
+SECTIONS.forEach(([id]) => spy.observe(document.getElementById(id)));
+
+/* ------------------------------------------------------------ the fit */
+const PV = D.provenance || {};
+/* The fit pins which units were used; nothing pins the codings on them. If the coding
+   file has been rewritten since, the extractor rates here and the parameters they are
+   measured against are different snapshots, and the comparison is not what it looks
+   like. Fits taken before the fingerprint was recorded cannot be checked at all, and
+   that is said rather than assumed away. */
+if (PV.state === "changed" || PV.state === "unknown") {
+  const changed = PV.state === "changed";
+  document.querySelector(".mast").append(el("p",{class:"note",
+    style:`border-left-color:var(--${changed ? "crit" : "warn"});color:var(--ink-2);margin-top:18px`,
+    html: (changed
+      ? `<b>The coding has changed since this fit.</b> The fit read `+
+        `<code>${(PV.was||{}).lines?.toLocaleString?.() ?? "?"}</code> lines `+
+        `(sha ${(PV.was||{}).sha8}); <code>${D.meta.codings}</code> now has `+
+        `${PV.now.lines.toLocaleString()} (sha ${PV.now.sha8}).`
+      : `<b>Cannot verify the coding matches this fit.</b> It was saved before the `+
+        `fingerprint was recorded. <code>${D.meta.codings}</code> currently has `+
+        `${PV.now.lines.toLocaleString()} lines (sha ${PV.now.sha8}).`)
+      + ` The unit set is pinned to the fit, but the codings on those units are not \u2014 `+
+        `so the two sides of \u201cextractor against model\u201d may come from different `+
+        `snapshots. Refit to make them agree.`}));
+}
+$("#prov").append(...[
+  ["source", D.meta.codings], ["units", D.meta.D.toLocaleString()],
+  ["actors", D.meta.A], ["nodes", D.meta.K], ["pairs", D.meta.P.toLocaleString()],
+  ["facets per ideology", D.meta.facets], ["kernel", D.meta.kernel],
+  ["periods", D.meta.periods.join("\u2013")],
+].map(([k,v]) => el("span",{}, k + " ", el("b",{}, v))));
+
+const last = D.meta.stages[D.meta.stages.length-1];
+const statStrip = (host, rows) => { host.innerHTML = "";
+  host.append(...rows.map(([lab,val,sub]) => el("div",{class:"stat"},
+    el("div",{class:"lab"}, typeof lab === "string" && lab.includes("<") ? htm(lab) : lab),
+    el("div",{class:"val"},val),
+    sub ? el("div",{class:"sub"},sub) : null))); };
+statStrip($("#stats"), [
+  ["held-out", last.held_out.toLocaleString(), "final stage"],
+  ["anchors met", pct(D.divergence.anchors_met), D.divergence.n_anchors + " C1 affiliations"],
+  ["edges lifted", pct(D.divergence.edges_lifted), D.divergence.n_theory_edges + " C2 links"],
+  ["ideological mass", pct(D.edge_mass.share), "of association"],
+  ["cultural concepts", D.typology["cultural"] ?? 0, "of " + D.meta.K],
+]);
+
+const table = (host, cols, rows, opts={}) => {
+  host.innerHTML = "";
+  const thead = el("thead"), tr = el("tr");
+  cols.forEach((c,i) => { const th = el("th", c.sort===false?{}:{class:"s"}, c.label);
+    if (c.sort !== false) th.addEventListener("click", () => {
+      const dir = th.dataset.dir === "1" ? -1 : 1;
+      host.querySelectorAll("th").forEach(x => delete x.dataset.dir);
+      th.dataset.dir = dir;
+      rows.sort((a,b) => { const x = c.key(a), y = c.key(b);
+        return (typeof x === "string" ? x.localeCompare(y) : (x||0)-(y||0)) * dir; });
+      body(); });
+    tr.append(th); });
+  thead.append(tr); host.append(thead);
+  const tb = el("tbody"); host.append(tb);
+  function body(){ tb.innerHTML = "";
+    const lim = opts.limit || rows.length;
+    rows.slice(0, lim).forEach(r => {
+      const t = el("tr");
+      if (opts.onpick){ t.className = "pick"; t.tabIndex = 0;
+        const go = () => { tb.querySelectorAll("tr").forEach(x =>
+            x.classList.remove("sel"));
+          t.classList.add("sel"); opts.onpick(r); };
+        t.addEventListener("click", go);
+        t.addEventListener("keydown", e => {
+          if (e.key === "Enter" || e.key === " "){ e.preventDefault(); go(); } }); }
+      cols.forEach(c => t.append(c.cell(r)));
+      tb.append(t); }); }
+  body(); return body;
+};
+const td = (v, cls="") => el("td", cls?{class:cls}:{}, v);
+
+table($("#stages"), [
+  {label:"stage", sort:false, key:r=>r.name, cell:r=>td(r.name)},
+  {label:"train", sort:false, key:r=>r.train, cell:r=>td(r.train.toLocaleString(),"n")},
+  {label:"rate", sort:false, key:r=>r.rate, cell:r=>td(r.rate.toLocaleString(),"n")},
+  {label:"pair", sort:false, key:r=>r.pair, cell:r=>td(r.pair?r.pair.toLocaleString():"\u2014","n")},
+  {label:"held-out", sort:false, key:r=>r.held_out, cell:r=>td(r.held_out.toLocaleString(),"n")},
+  {label:"", sort:false, key:r=>0, cell:(r)=>{
+     const i = D.meta.stages.indexOf(r);
+     if (!i) return td("");
+     const d = r.held_out - D.meta.stages[i-1].held_out;
+     return el("td",{class:"n",style:`color:${d<0?"var(--ok)":"var(--crit)"}`},
+       (d<0?"better ":"worse ") + (d>0?"+":"") + d.toFixed(1)); }},
+], D.meta.stages);
+$("#fitnote").innerHTML = `<b>${D.meta.facets}</b> facet per ideology, kernel
+  <b>${D.meta.kernel}</b>, \u03b1 = ${D.meta.alpha}, \u03c9 = ${D.meta.omega}, \u03c0\u0304 = ${D.meta.pi_bar}.
+  Rate blocks do not see the pair term, so held-out scores the rate channel alone.`;
+
+/* ------------------------------------------------- 1. theory vs fit */
+let CUR = 0;
+$("#idtabs").append(...D.ideology.map((ig,k) =>
+  el("button",{role:"tab","aria-selected":k===0, onclick:()=>{CUR=k;
+    $("#idtabs").querySelectorAll("button").forEach((b,j)=>
+      b.setAttribute("aria-selected", j===k)); drawIdeology();}},
+    el("span",{class:"idc"}, el("span",{class:"dot",style:`background:${IDCOL(k)}`}), ig.name))));
+
+const EDGECAT = {
+  lifted:{c:"var(--ok)", label:`confirmed \u2014 in ${Ek} and lifted off \u03c9`},
+  shared:{c:"var(--warn)", label:`went to culture \u2014 mass landed in ${W0}`},
+  inert:{c:"var(--line-2)", label:`unsupported \u2014 still on the \u03c9 floor, ${W0} empty too`},
+  found:{c:"var(--cb)", label:`found \u2014 strong ${Wk} on a pair theory did not name`},
+};
+
+function drawIdeology(){
+  const ig = D.ideology[CUR], c = ig.counts;
+  statStrip($("#idstats"), [
+    ["adherents", ig.mass, `effective ${ig.effective_actors}`],
+    ["support", ig.support + " / " + D.meta.K, "nodes with a position"],
+    ["C1 anchors", ig.n_anchors, "supplied by theory"],
+    ["C2 links", ig.n_theory_edges, `${c.lifted} confirmed \u00b7 ${c.shared} cultural \u00b7 ${c.inert} inert`],
+    ["found edges", c.found, "not named by theory"],
+  ]);
+  drawNodeBars(); drawNet();
+  $("#netlegend").innerHTML = "";
+  $("#netlegend").append(...Object.entries(EDGECAT).map(([k,v]) =>
+    el("span",{}, el("span",{class:"swatch",style:`background:${v.c}`}), htm(v.label))));
+}
+
+function nodeSet(){
+  const ig = D.ideology[CUR];
+  const f = $("#nodefilter").value;
+  let ns = ig.nodes.filter(n => n.eta > 0.02 || n.anchored);
+  if (f === "anchored") ns = ig.nodes.filter(n => n.anchored);
+  if (f === "unmet") ns = ig.nodes.filter(n => n.anchored && n.eta < 0.5*D.meta.alpha);
+  if (f === "poached") ns = ig.nodes.filter(n => n.eta > 0.25 && !n.anchored &&
+      D.nodes[n.i].anchored.length);
+  return ns.sort((a,b) => b.eta - a.eta);
+}
+
+function drawNodeBars(){
+  const host = $("#nodebars"); host.innerHTML = "";
+  const ns = nodeSet();
+  if (!ns.length){ host.append(el("p",{class:"mini"},"no nodes match")); return; }
+  const max = Math.max(1e-6, ...ns.map(n => Math.abs(n.eta)));
+  host.append(el("div",{class:"mini",style:"margin-bottom:8px"},
+    `${ns.length} nodes \u00b7 bar = fitted \u03b7, mark = C1 anchor`));
+  ns.slice(0,60).forEach(n => {
+    const w = 100*Math.abs(n.eta)/max, neg = n.eta < 0;
+    const track = el("div",{class:"bar-track"});
+    const bar = el("i",{style:`width:${w}%;background:${neg?"var(--crit)":IDCOL(CUR)};opacity:${n.anchored?1:.5}`});
+    track.append(bar);
+    const row = el("div",{class:"bar-row"},
+      el("span",{style:`color:${n.anchored?"var(--ink)":"var(--muted)"}`},
+        n.id + (n.anchored ? "\u2022" : "")), track);
+    hover(row, `<b>${n.id}</b> ${RUNGS[n.rung]}<br>${n.text}<br>
+      \u03b7 = ${fmt(n.eta,3)}${n.anchored?" \u00b7 anchored by C1":""}
+      ${D.nodes[n.i].anchored.length?"<br>theory: "+D.nodes[n.i].anchored.join("/"):""}`);
+    host.append(row);
+  });
+  if (ns.length > 60) host.append(el("div",{class:"mini",style:"margin-top:8px"},
+    `+${ns.length-60} more`));
+}
+
+function drawNet(){
+  const ig = D.ideology[CUR];
+  const on = c => document.getElementById("e_"+c).checked;
+  const edges = ig.edges.filter(e => on(e.cat));
+  const deg = {};
+  edges.forEach(e => { deg[e.u]=(deg[e.u]||0)+1; deg[e.v]=(deg[e.v]||0)+1; });
+  let ids = Object.keys(deg).map(Number);
+  ids.sort((a,b) => deg[b]-deg[a]);
+  ids = ids.slice(0, 46);
+  const keep = new Set(ids);
+  const es = edges.filter(e => keep.has(e.u) && keep.has(e.v));
+  const W = 620, rowH = 78, PAD = 26, H = PAD*2 + rowH*3 + 40;
+  const host = $("#net"); host.innerHTML = "";
+  if (!ids.length){ host.append(el("p",{class:"mini"},"no edges in the selected classes"));
+    return; }
+  const byRung = [[],[],[],[]];
+  ids.forEach(i => byRung[D.nodes[i].rung].push(i));
+  const pos = {};
+  byRung.forEach((row,r) => { row.sort((a,b)=>deg[b]-deg[a]);
+    row.forEach((i,j) => { const n = row.length;
+      pos[i] = { x: PAD + (W-2*PAD) * (n===1 ? .5 : j/(n-1)), y: PAD + 20 + r*rowH }; }); });
+  const svg = s("svg",{viewBox:`0 0 ${W} ${H}`,width:W,height:H,role:"img",
+    "aria-label":`Network for ${ig.name}, nodes by rung`});
+  RUNGS.forEach((rl,r) => {
+    svg.append(s("line",{x1:PAD-14,x2:W-PAD+14,y1:PAD+20+r*rowH,y2:PAD+20+r*rowH,
+      stroke:"var(--grid)","stroke-width":1}));
+    const t = s("text",{x:4,y:PAD+24+r*rowH,fill:"var(--faint)","font-size":10,
+      "font-family":"var(--mono)"}); t.textContent = rl; svg.append(t);
+  });
+  ["inert","shared","found","lifted"].forEach(cat => es.filter(e=>e.cat===cat).forEach(e => {
+    const a = pos[e.u], b = pos[e.v];
+    const mx = (a.x+b.x)/2, my = (a.y+b.y)/2 + (a.y===b.y ? -18 : 0);
+    const path = s("path",{d:`M${a.x},${a.y} Q${mx},${my} ${b.x},${b.y}`,fill:"none",
+      stroke:EDGECAT[cat].c,"stroke-width":cat==="inert"?1:1.6,
+      "stroke-opacity":cat==="inert"?.5:.8,"stroke-dasharray":cat==="inert"?"3 3":""});
+    hover(path, `<b>${D.nodes[e.u].id}\u2013${D.nodes[e.v].id}</b> ${e.block}<br>
+      ${EDGECAT[cat].label}<br>W = ${fmt(e.w,2)} \u00b7 ${W0} = ${fmt(e.w0,2)}`);
+    svg.append(path);
+  }));
+  ids.forEach(i => { const n = D.nodes[i], igN = ig.nodes[i], p = pos[i];
+    const g = s("g",{});
+    g.append(s("circle",{cx:p.x,cy:p.y,r:igN.anchored?5.5:4,
+      fill:igN.eta>0.02?IDCOL(CUR):"var(--surface)",
+      stroke:igN.anchored?"var(--ink)":"var(--line-2)","stroke-width":igN.anchored?1.5:1}));
+    const t = s("text",{x:p.x,y:p.y-9,fill:"var(--muted)","font-size":8.5,
+      "text-anchor":"middle","font-family":"var(--mono)"}); t.textContent = n.id;
+    g.append(t);
+    hover(g, `<b>${n.id}</b> ${RUNGS[n.rung]} \u00b7 degree ${deg[i]}<br>${n.text}<br>
+      \u03b7 = ${fmt(igN.eta,3)}${igN.anchored?" \u00b7 C1 anchor":""}`);
+    svg.append(g); });
+  host.append(svg);
+  host.append(el("p",{class:"cap"},
+    `${ids.length} highest-degree nodes of ${Object.keys(deg).length}, laid out by rung; `+
+    `${es.length} of ${edges.length} edges drawn.`));
+}
+["nodefilter"].forEach(id => $("#"+id).addEventListener("change", drawNodeBars));
+["lifted","shared","inert","found"].forEach(c =>
+  $("#e_"+c).addEventListener("change", drawNet));
+drawIdeology();
+
+/* -------------------------------------------- 2. extractor vs model */
+const ACT = D.actors, CELLS = D.cells;
+$("#r_actor").append(el("option",{value:"-1"},"all actors"),
+  ...ACT.map((a,i) => el("option",{value:i}, `${a.name} \u00b7 ${a.group}`))
+       .sort((x,y) => x.textContent.localeCompare(y.textContent)));
+$("#r_rung").append(el("option",{value:"-1"},"all rungs"),
+  ...RUNGS.map((r,i) => el("option",{value:i}, r)));
+
+/* Which units carry a coding of node u by actor a -- every voice, not only the ones
+   the fit saw. A cell where the model predicts more than the extractor is very often a
+   node the extractor did code and the voice filter then dropped, and that is only
+   legible if the dropped codings are here too. */
+const UNIT_IX = new Map();
+D.units.forEach((u, i) => {
+  for (const n of new Set(u[3].map(c => c[0]))) {
+    const key = u[0] + "|" + n;
+    if (!UNIT_IX.has(key)) UNIT_IX.set(key, []);
+    UNIT_IX.get(key).push(i);
+  }
+});
+
+function showUnits(a, n){
+  const host = $("#unitpanel"), act = ACT[a], node = D.nodes[n];
+  const ix = UNIT_IX.get(a + "|" + n) || [];
+  host.innerHTML = "";
+  const head = el("header",{},
+    el("h4",{}, `${act.name} \u00b7 ${node.id}`),
+    el("span",{class:"mini"}, node.text));
+  host.append(head);
+  if (!ix.length){
+    host.append(el("div",{class:"empty"},
+      `The extraction never coded ${node.id} for ${act.name}, in any voice \u2014 so the `+
+      `model's rate here rests entirely on the ideology profile and this actor's `+
+      `membership, with nothing observed to anchor it.`));
+    return;
+  }
+  const body = el("div",{class:"body"});
+  const rows = ix.map(i => D.units[i]).sort((x,y) => {
+    const cx = x[3].find(c => c[0] === n), cy = y[3].find(c => c[0] === n);
+    return (cy[1] || 0) - (cx[1] || 0); });
+  rows.forEach(u => {
+    const mine = u[3].filter(c => c[0] === n);
+    const others = u[3].filter(c => c[0] !== n);
+    const badges = mine.map(([, conf, cell]) =>
+      `${conf.toFixed(2)}<span class="voice v${cell}">${D.cell_names[cell]}</span>`).join(" ");
+    const meta = el("div",{class:"meta",html: badges +
+      (others.length ? `<br><span style="opacity:.75">+${others.length} other node`+
+        `${others.length>1?"s":""}</span>` : "")});
+    const para = el("p",{}, u[2] || "(no text)");
+    const row = el("div",{class:"unit"}, para, meta);
+    if (others.length) hover(row, "also coded here:<br>" + others.map(([nn,cc,vv]) =>
+      `<b>${D.nodes[nn].id}</b> ${cc.toFixed(2)} ${D.cell_names[vv]}`).join("<br>"));
+    body.append(row);
+  });
+  host.append(body);
+  const held = rows.filter(u => u[3].some(c => c[0] === n && c[2] === 0)).length;
+  head.append(el("span",{class:"mini",style:"margin-left:auto"},
+    `${rows.length} unit${rows.length>1?"s":""} \u00b7 ${held} the model saw`));
+}
+
+function rateRows(){
+  const ai = +$("#r_actor").value, ru = +$("#r_rung").value,
+        dir = $("#r_dir").value, minU = +$("#r_units").value,
+        q = $("#r_q").value.trim().toLowerCase();
+  return CELLS.filter(c => {
+    const [a,n,o,e,lr] = c;
+    if (ai >= 0 && a !== ai) return false;
+    if (ru >= 0 && D.nodes[n].rung !== ru) return false;
+    if (ACT[a].units < minU) return false;
+    if (dir === "over" && lr <= 0) return false;
+    if (dir === "under" && lr >= 0) return false;
+    if (q && !(D.nodes[n].id.toLowerCase().includes(q) ||
+               D.nodes[n].text.toLowerCase().includes(q) ||
+               ACT[a].name.toLowerCase().includes(q) || ACT[a].id.includes(q) ||
+               ACT[a].group.toLowerCase().includes(q)))
+      return false;
+    return true; });
+}
+
+function drawRates(){
+  const rows = rateRows();
+  const sorted = rows.slice().sort((x,y) => Math.abs(y[4]) - Math.abs(x[4]));
+  $("#ratecap").textContent =
+    `${rows.length.toLocaleString()} of ${CELLS.length.toLocaleString()} actor \u00d7 node cells; `+
+    `showing the 300 largest disagreements. Rates are codings per unit.`;
+  table($("#ratetbl"), [
+    {label:"actor", key:r=>ACT[r[0]].name, cell:r=>{
+       const a = ACT[r[0]], c = td(a.name);
+       hover(c, `<b>${a.name}</b> \u00b7 ${a.group}<br>${a.desc || "<i>no bio</i>"}`);
+       return c; }},
+    {label:"group", key:r=>ACT[r[0]].group, cell:r=>td(ACT[r[0]].group)},
+    {label:"node", key:r=>D.nodes[r[1]].id, cell:r=>{
+       const n = D.nodes[r[1]];
+       const c = el("td",{}, el("span",{class:"chip rung"+n.rung}, RUNGS[n.rung]), " " + n.id);
+       hover(c, `<b>${n.id}</b><br>${n.text}`); return c; }},
+    {label:"extractor", key:r=>r[2], cell:r=>td(r[2].toFixed(4),"n")},
+    {label:"model", key:r=>r[3], cell:r=>td(r[3].toFixed(4),"n")},
+    {label:"log ratio", key:r=>Math.abs(r[4]), cell:r=>el("td",
+       {class:"n",style:`color:${r[4]>0?"var(--crit)":"var(--muted)"}`}, r[4].toFixed(2))},
+  ], sorted, {limit:300, onpick: r => showUnits(r[0], r[1])});
+  scatter(rows);
+  $("#unitpanel").innerHTML =
+    `<div class="empty">Click a row above to read the units behind that cell \u2014 the `+
+    `extraction's own text, with the voice it was coded in.</div>`;
+}
+
+function scatter(rows){
+  const W = 400, H = 330, P = 42;
+  const host = $("#scatter"); host.innerHTML = "";
+  const pts = rows.filter(r => r[2] > 0 || r[3] > 0);
+  const lg = v => Math.log10(Math.max(v, 1e-5));
+  const lo = -5, hi = 0.6;
+  const sx = v => P + (lg(v)-lo)/(hi-lo) * (W-P-14);
+  const sy = v => H-P - (lg(v)-lo)/(hi-lo) * (H-P-14);
+  const svg = s("svg",{viewBox:`0 0 ${W} ${H}`,width:W,height:H,role:"img",
+    "aria-label":"Extractor rate against model rate, log scale"});
+  for (let t = -5; t <= 0; t++){
+    svg.append(s("line",{x1:sx(10**t),x2:sx(10**t),y1:14,y2:H-P,stroke:"var(--grid)"}));
+    svg.append(s("line",{x1:P,x2:W-14,y1:sy(10**t),y2:sy(10**t),stroke:"var(--grid)"}));
+    const a = s("text",{x:sx(10**t),y:H-P+14,fill:"var(--faint)","font-size":9,
+      "text-anchor":"middle","font-family":"var(--mono)"}); a.textContent = "1e"+t;
+    svg.append(a);
+    const b = s("text",{x:P-6,y:sy(10**t)+3,fill:"var(--faint)","font-size":9,
+      "text-anchor":"end","font-family":"var(--mono)"}); b.textContent = "1e"+t;
+    svg.append(b);
+  }
+  svg.append(s("line",{x1:sx(10**lo),y1:sy(10**lo),x2:sx(10**hi),y2:sy(10**hi),
+    stroke:"var(--line-2)","stroke-width":1.5,"stroke-dasharray":"4 3"}));
+  const step = Math.max(1, Math.floor(pts.length / 4000));
+  for (let i = 0; i < pts.length; i += step){
+    const r = pts[i];
+    svg.append(s("circle",{cx:sx(r[2]),cy:sy(r[3]),r:1.7,fill:"var(--muted)",
+      "fill-opacity":.42}));
+  }
+  const xl = s("text",{x:(W+P)/2,y:H-6,fill:"var(--muted)","font-size":10,
+    "text-anchor":"middle","font-family":"var(--mono)"});
+  xl.textContent = "extractor rate"; svg.append(xl);
+  const yl = s("text",{x:12,y:(H-P)/2,fill:"var(--muted)","font-size":10,
+    "text-anchor":"middle","font-family":"var(--mono)",
+    transform:`rotate(-90 12 ${(H-P)/2})`});
+  yl.textContent = "model rate"; svg.append(yl);
+  host.append(svg);
+  host.append(el("p",{class:"cap"},
+    `${pts.length.toLocaleString()} cells${step>1?` (every ${step}${step===2?"nd":"th"} drawn)`:""}. `+
+    `Cells at zero on one axis are clipped to 1e-5.`));
+}
+["r_actor","r_rung","r_dir","r_q"].forEach(id =>
+  $("#"+id).addEventListener("input", drawRates));
+$("#r_units").addEventListener("input", e => {
+  $("#r_units_v").textContent = e.target.value; drawRates(); });
+drawRates();
+
+
+
+/* ---------------------------------------------------- 3. edge blocks */
+/* The ladder gives the network a block structure: same-type and adjacent-type pairs are
+   admitted, the three rung-skipping ones are structurally zero (C5). Reading the edges
+   through that grid is how section 5's lateral-absorption watch is actually done --
+   intra-rung blocks competing with cross-rung ones for the same co-occurrence. */
+const BLOCKS = D.meta.blocks, FORBIDDEN = new Set(D.forbidden_blocks || []);
+const LAYERS = [{key:"W0", label:"shared W(0) \u2014 culture"},
+                ...IDS.map((n,k) => ({key:"k"+k, label:n, k})),
+                {key:"sum", label:"all ideologies, summed"}];
+$("#b_layer").append(...LAYERS.map(l => el("option",{value:l.key}, l.label)));
+let B_PICK = null;
+
+const edgeWeight = (e, layer) =>
+  layer.key === "W0" ? e[3] :
+  layer.key === "sum" ? e[4].reduce((a,b)=>a+b,0) : e[4][layer.k];
+
+function blockStats(){
+  const layer = LAYERS.find(l => l.key === $("#b_layer").value) || LAYERS[0];
+  const onlyTheory = $("#b_theory").checked;
+  const st = {};
+  BLOCKS.forEach(b => st[b] = {mass:0, count:0, pairs:0});
+  D.edges.forEach(e => {
+    if (onlyTheory && !e[5]) return;
+    const b = BLOCKS[e[2]], w = edgeWeight(e, layer);
+    st[b].pairs++;
+    if (w > 1e-8){ st[b].mass += w; st[b].count++; }
+  });
+  BLOCKS.forEach(b => st[b].mean = st[b].count ? st[b].mass / st[b].count : 0);
+  return {st, layer};
+}
+
+function drawBlocks(){
+  const {st, layer} = blockStats();
+  const metric = $("#b_metric").value;
+  const val = b => st[b][metric === "count" ? "count" : metric === "mean" ? "mean" : "mass"];
+  const max = Math.max(1e-9, ...BLOCKS.map(val));
+  const R = RUNGS, N = R.length, cell = 84, PAD = 34;
+  const W = PAD + N*cell + 8, H = PAD + N*cell + 8;
+  const svg = s("svg",{viewBox:`0 0 ${W} ${H}`,width:W,height:H,role:"img",
+    "aria-label":"Edge weight by type block"});
+  R.forEach((r,i) => {
+    const a = s("text",{x:PAD-8,y:PAD+i*cell+cell/2+4,"text-anchor":"end",
+      fill:"var(--muted)","font-size":12,"font-family":"var(--mono)"});
+    a.textContent = r; svg.append(a);
+    const b = s("text",{x:PAD+i*cell+cell/2,y:PAD-10,"text-anchor":"middle",
+      fill:"var(--muted)","font-size":12,"font-family":"var(--mono)"});
+    b.textContent = r; svg.append(b);
+  });
+  for (let i=0;i<N;i++) for (let j=0;j<N;j++){
+    const name = R[Math.min(i,j)] + R[Math.max(i,j)];
+    const x = PAD + j*cell, y = PAD + i*cell;
+    const forbidden = FORBIDDEN.has(name);
+    const v = forbidden ? 0 : val(name);
+    const t = max > 0 ? v/max : 0;
+    const g = s("g",{});
+    g.append(s("rect",{x:x+1,y:y+1,width:cell-2,height:cell-2,rx:2,
+      fill: forbidden ? "var(--surface-2)" : `color-mix(in oklab, var(--cb) ${(12+78*t).toFixed(1)}%, var(--surface))`,
+      stroke: B_PICK === name ? "var(--ink)" : "var(--line)",
+      "stroke-width": B_PICK === name ? 2 : 1}));
+    if (forbidden){
+      g.append(s("line",{x1:x+8,y1:y+cell-8,x2:x+cell-8,y2:y+8,
+        stroke:"var(--line-2)","stroke-width":1.5}));
+      const f = s("text",{x:x+cell/2,y:y+cell/2+14,"text-anchor":"middle",
+        fill:"var(--faint)","font-size":8.5,"font-family":"var(--mono)"});
+      f.textContent = "C5 zero"; g.append(f);
+    } else {
+      const lab = s("text",{x:x+cell/2,y:y+cell/2-2,"text-anchor":"middle",
+        fill: t > .55 ? "var(--surface)" : "var(--ink)","font-size":13,
+        "font-family":"var(--mono)","font-weight":500});
+      lab.textContent = metric === "count" ? String(st[name].count)
+        : st[name][metric === "mean" ? "mean" : "mass"].toFixed(metric==="mean"?2:1);
+      g.append(lab);
+      const sub = s("text",{x:x+cell/2,y:y+cell/2+13,"text-anchor":"middle",
+        fill: t > .55 ? "var(--surface)" : "var(--faint)","font-size":9,
+        "font-family":"var(--mono)"});
+      sub.textContent = name; g.append(sub);
+      g.setAttribute("style","cursor:pointer");
+      g.addEventListener("click", () => { B_PICK = name; drawBlocks(); drawBlockEdges(); });
+      hover(g, `<b>${name}</b> \u2014 ${layer.label}<br>`+
+        `${st[name].count} live of ${st[name].pairs} pairs<br>`+
+        `total ${st[name].mass.toFixed(2)} \u00b7 mean ${st[name].mean.toFixed(3)}<br>`+
+        `<span style="opacity:.7">click to list them</span>`);
+    }
+    svg.append(g);
+  }
+  const host = $("#blockmatrix"); host.innerHTML = ""; host.append(svg);
+  $("#blocklegend").innerHTML =
+    `<span>rows and columns are rungs; each cell is a block</span>`+
+    `<span><span class="swatch" style="background:var(--surface-2)"></span>`+
+    `struck through = forbidden by C5, W pinned to zero</span>`;
+  drawBlockEdges();
+}
+
+function drawBlockEdges(){
+  const {st, layer} = blockStats();
+  const onlyTheory = $("#b_theory").checked;
+  const pickHost = $("#blockpick"); pickHost.innerHTML = "";
+  if (!B_PICK){
+    $("#blocktbl").innerHTML = "";
+    $("#blockcap").textContent = "";
+    pickHost.append(el("div",{class:"pivot"},
+      "Click a block in the matrix to list its edges."));
+    return;
+  }
+  pickHost.append(el("div",{class:"pivot"},
+    el("b",{}, B_PICK), ` \u2014 ${layer.label}`,
+    el("span",{class:"mini"},
+      `${st[B_PICK].count} live of ${st[B_PICK].pairs} pairs, total `+
+      `${st[B_PICK].mass.toFixed(2)}`),
+    el("button",{class:"more", type:"button", style:"margin-left:auto;padding:3px 10px",
+      onclick:() => { B_PICK = null; drawBlocks(); }}, "Clear")));
+  const rows = D.edges.filter(e => BLOCKS[e[2]] === B_PICK && (!onlyTheory || e[5]))
+    .sort((a,b) => edgeWeight(b, layer) - edgeWeight(a, layer));
+  $("#blockcap").textContent = `${rows.length} pairs in ${B_PICK}`+
+    (onlyTheory ? ", restricted to links C2 named" : "") + ".";
+  table($("#blocktbl"), [
+    {label:"pair", key:e=>D.nodes[e[0]].id, cell:e=>{
+       const c = el("td",{}, `${D.nodes[e[0]].id}\u2013${D.nodes[e[1]].id}`,
+         e[5] ? el("span",{class:"pin",style:"margin-left:6px"},"C2") : null);
+       hover(c, `<b>${D.nodes[e[0]].id}</b> ${D.nodes[e[0]].text}<br><br>`+
+         `<b>${D.nodes[e[1]].id}</b> ${D.nodes[e[1]].text}`);
+       return c; }},
+    {label:"W(0)", key:e=>e[3], cell:e=>td(e[3].toFixed(3),"n")},
+    ...IDS.map((n,k) => ({label:n, key:e=>e[4][k],
+      cell:e=>el("td",{class:"n",style:e[4][k]>0.01?`color:${IDCOL(k)};font-weight:600`:""},
+        e[4][k].toFixed(3))})),
+    {label:"where it sits", sort:false, key:e=>0, cell:e=>{
+       const ide = e[4].reduce((a,b)=>a+b,0), tot = ide + e[3];
+       if (tot < 1e-8) return td("\u2014");
+       const track = el("div",{class:"bar-track",style:"width:110px"});
+       if (e[3] > 0) track.append(el("i",{style:
+         `width:${100*e[3]/tot}%;background:var(--muted)`}));
+       e[4].forEach((w,k) => { if (w > 0) track.append(el("i",{style:
+         `width:${100*w/tot}%;background:${IDCOL(k)}`})); });
+       const c = el("td",{}, track);
+       hover(c, `culture ${(100*e[3]/tot).toFixed(0)}% \u00b7 `+
+         IDS.map((n,k)=>`${n} ${(100*e[4][k]/tot).toFixed(0)}%`).join(" \u00b7 "));
+       return c; }},
+  ], rows, {limit:400});
+}
+["b_layer","b_metric","b_theory"].forEach(id =>
+  $("#"+id).addEventListener("input", () => drawBlocks()));
+drawBlocks();
+
+/* ------------------------------------------------- 4. tweet x concept */
+/* Each row pairs the extractor's confidence for a coding with the model's expectation
+   for that node, actor and period. Both are probabilities that the concept is present,
+   so they subtract -- but the model has no per-tweet information, and the copy above
+   says so, because a table that puts them side by side implies otherwise. */
+const NODES_BY_USE = (() => {
+  const n = new Map();
+  D.units.forEach(u => u[3].forEach(c => n.set(c[0], (n.get(c[0])||0)+1)));
+  return [...n.entries()].sort((a,b) => b[1]-a[1]);
+})();
+$("#t_actor").append(el("option",{value:"-1"},"all actors"),
+  ...ACT.map((a,i) => el("option",{value:i}, `${a.name} \u00b7 ${a.group}`))
+       .sort((x,y) => x.textContent.localeCompare(y.textContent)));
+$("#t_node").append(el("option",{value:"-1"},"all concepts"),
+  ...NODES_BY_USE.map(([i,c]) => el("option",{value:i},
+     `${D.nodes[i].id} \u00b7 ${c} coded \u00b7 ${D.nodes[i].text.slice(0,44)}`)));
+$("#t_voice").append(el("option",{value:"-1"},"all voices"),
+  ...D.cell_names.map((n,i) => el("option",{value:i}, n)));
+
+const GAP = c => c[1] - c[3];                 // extractor confidence - model expectation
+let T_SHOWN = 25;
+/* "" coerces to 0, which is a valid index -- so a blank select would silently filter to
+   the first actor rather than to everything. Read the sentinel explicitly. */
+const pick = id => { const v = $("#" + id).value; return v === "" ? -1 : +v; };
+
+function tweetRows(){
+  const ai = pick("t_actor"), ni = pick("t_node"), vi = pick("t_voice"),
+        minGap = +($("#t_gap").value || 0), q = $("#t_q").value.trim().toLowerCase();
+  const out = [];
+  for (const u of D.units) {
+    if (ai >= 0 && u[0] !== ai) continue;
+    let codes = u[3];
+    if (ni >= 0) codes = codes.filter(c => c[0] === ni);
+    if (vi >= 0) codes = codes.filter(c => c[2] === vi);
+    if (minGap > 0) codes = codes.filter(c => Math.abs(GAP(c)) >= minGap);
+    if (!codes.length) continue;
+    if (q && !(u[2].toLowerCase().includes(q) ||
+               ACT[u[0]].name.toLowerCase().includes(q) ||
+               codes.some(c => D.nodes[c[0]].id.toLowerCase() === q ||
+                               D.nodes[c[0]].text.toLowerCase().includes(q)))) continue;
+    out.push([u, codes]);
+  }
+  const sort = $("#t_sort").value;
+  const key = ([u,c]) =>
+    sort === "gap"      ? Math.max(...c.map(x => Math.abs(GAP(x)))) :
+    sort === "surprise" ? -Math.log10(Math.max(Math.min(...c.map(x => x[3])), 1e-9)) :
+    sort === "conf"     ? Math.max(...c.map(x => x[1])) :
+    sort === "n"        ? c.length : u[1];
+  return out.sort((a,b) => key(b) - key(a));
+}
+
+function drawTweets(reset=true){
+  if (reset) T_SHOWN = 25;
+  const rows = tweetRows();
+  const host = $("#tweetlist"); host.innerHTML = "";
+  // when the list is pivoted onto one concept, say so where the eye already is
+  const fh = $("#tweetfilter"); fh.innerHTML = "";
+  const ni2 = pick("t_node");
+  if (ni2 >= 0) {
+    const n = D.nodes[ni2];
+    fh.append(el("div",{class:"pivot"},
+      el("span",{class:"chip rung"+n.rung}, RUNGS[n.rung]),
+      el("b",{}, " " + n.id + " "), n.text,
+      el("button",{class:"more", type:"button", style:"margin-left:auto;padding:3px 10px",
+        onclick:() => { $("#t_node").value = "-1"; drawTweets(); }}, "Show all concepts")));
+  }
+  const nCodes = rows.reduce((s,[,c]) => s + c.length, 0);
+  $("#tweetcap").textContent =
+    `${rows.length.toLocaleString()} tweets \u00b7 ${nCodes.toLocaleString()} codings ` +
+    `of ${D.units.length.toLocaleString()} coded tweets. Showing ` +
+    `${Math.min(T_SHOWN, rows.length).toLocaleString()}.`;
+  rows.slice(0, T_SHOWN).forEach(([u, codes]) => {
+    const card = el("div",{class:"tw"});
+    card.append(el("div",{class:"top"},
+      el("p",{class:"txt"}, u[2] || "(no text)"),
+      el("div",{class:"who",html:
+        `${ACT[u[0]].name}<br>${ACT[u[0]].group}<br>${PERIODS[u[1]] ?? ''}`})));
+    const t = el("table"), tb = el("tbody");
+    t.append(el("thead",{}, el("tr",{},
+      ...["concept","voice","extractor","model","gap"].map(h =>
+        el("th",{}, h)))));
+    codes.slice().sort((a,b) => Math.abs(GAP(b)) - Math.abs(GAP(a))).forEach(c => {
+      const n = D.nodes[c[0]], g = GAP(c);
+      const bar = el("span",{class:"gapbar"},
+        el("i",{class: g < 0 ? "under" : "", style:`width:${Math.abs(g)*90}px`}),
+        el("span",{}, (g>0?"+":"") + g.toFixed(2)));
+      const pivot = el("button",{class:"conceptbtn", type:"button",
+        title:`Show every tweet coded ${n.id}`,
+        onclick:() => { $("#t_node").value = String(c[0]); drawTweets();
+          document.getElementById("tweets").scrollIntoView({block:"start"}); }},
+        el("span",{class:"chip rung"+n.rung}, RUNGS[n.rung]), " " + n.id + " ",
+        el("span",{style:"color:var(--muted);font-weight:400"}, n.text.slice(0,60)));
+      const nameCell = el("td",{}, pivot);
+      hover(nameCell, `<b>${n.id}</b> ${RUNGS[n.rung]}<br>${n.text}<br>
+        <span style="opacity:.7">click to show every tweet coded ${n.id}</span>`);
+      const row = el("tr",{},
+        nameCell,
+        el("td",{}, el("span",{class:"voice v"+c[2]}, D.cell_names[c[2]])),
+        td(c[1].toFixed(2), "n"),
+        td(c[3].toFixed(4), "n"),
+        el("td",{}, bar));
+      tb.append(row);
+    });
+    t.append(tb); card.append(el("div",{class:"scroll"}, t));
+    host.append(card);
+  });
+  $("#t_more").disabled = T_SHOWN >= rows.length;
+  $("#t_more").textContent = T_SHOWN >= rows.length ? "All shown"
+    : `Show more (${(rows.length - T_SHOWN).toLocaleString()} left)`;
+}
+["t_actor","t_node","t_voice","t_sort","t_q"].forEach(id =>
+  $("#"+id).addEventListener("input", () => drawTweets()));
+$("#t_gap").addEventListener("input", e => {
+  $("#t_gap_v").textContent = (+e.target.value).toFixed(2); drawTweets(); });
+$("#t_more").addEventListener("click", () => { T_SHOWN += 25; drawTweets(false); });
+drawTweets();
+
+/* ------------------------------------------------------- 5. actors */
+const GROUPS = [...new Set(ACT.map(a => a.group))].sort();
+$("#a_group").append(el("option",{value:""},"all groups"),
+  ...GROUPS.map(g => el("option",{value:g}, g)));
+
+function drawActors(){
+  const g = $("#a_group").value, sort = $("#a_sort").value, pinOnly = $("#a_pin").checked;
+  let rows = ACT.filter(a => (!g || a.group === g) && (!pinOnly || a.pinned));
+  const key = a => sort === "units" ? a.units : sort === "entropy" ? a.entropy
+    : sort === "background" ? a.background : a.vartheta[IDS.indexOf(sort)];
+  rows = rows.slice().sort((x,y) => key(y) - key(x));
+  $("#actorcap").textContent = `${rows.length} of ${ACT.length} actors. `+
+    `Membership bars are the ideology margin plus the background coordinate; they sum to 1.`;
+  table($("#actortbl"), [
+    {label:"actor", key:a=>a.name, cell:a=>el("td",{}, a.name, " ",
+       a.pinned ? el("span",{class:"pin"},"PINNED") : null)},
+    {label:"group", key:a=>a.group, cell:a=>td(a.group)},
+    {label:"bio", sort:false, key:a=>0,
+     cell:a=>el("td",{class:"desc"}, a.desc || "\u2014")},
+    {label:"units", key:a=>a.units, cell:a=>td(a.units.toLocaleString(),"n")},
+    {label:"membership", sort:false, key:a=>0, cell:a=>{
+       const track = el("div",{class:"bar-track",style:"width:190px"});
+       a.vartheta.forEach((v,k) => { if (v > .002)
+         track.append(el("i",{style:`width:${100*v}%;background:${IDCOL(k)}`})); });
+       if (a.background > .002)
+         track.append(el("i",{style:`width:${100*a.background}%;background:var(--line-2)`}));
+       const c = el("td",{}, track);
+       hover(c, IDS.map((n,k)=>`${n} ${pct(a.vartheta[k])}`).join("<br>") +
+         `<br>background ${pct(a.background)}`);
+       return c; }},
+    ...IDS.map((n,k) => ({label:n, key:a=>a.vartheta[k],
+       cell:a=>el("td",{class:"n",style:a.vartheta[k]>.5?`color:${IDCOL(k)};font-weight:600`:""},
+         a.vartheta[k].toFixed(3))})),
+    {label:"backgr.", key:a=>a.background, cell:a=>td(a.background.toFixed(3),"n")},
+    {label:"entropy", key:a=>a.entropy, cell:a=>td(a.entropy.toFixed(2),"n")},
+    {label:"breadth \u03bc", key:a=>a.mu, cell:a=>td(a.mu.toFixed(2),"n")},
+  ], rows);
+}
+["a_group","a_sort","a_pin"].forEach(id => $("#"+id).addEventListener("input", drawActors));
+drawActors();
+
+
+/* ------------------------------------------------ 6. paper analyses */
+/* Reads exp/collected.json via report_data. Absent until runs.sh has been run, so every
+   block guards on its experiment being present rather than assuming the sweep finished --
+   a partial sweep should show what it has. */
+(function paperSections(){
+  const X = D.experiments;
+  const host = $("#paperbody");
+  if (!X || !Object.keys(X).length) {
+    host.append(el("div",{class:"empty"},
+      "No results yet. Run `bash runs.sh` (about two hours, three jobs at a time), "
+      + "then `python fit.py paper --collect`."));
+    return;
+  }
+  const sub = (t, ...gloss) => {
+    host.append(el("h3",{style:"font-size:16px;margin:30px 0 0"}, t));
+    gloss.forEach(g => host.append(el("p",{class:"note",html:g})));
+  };
+
+  /* ---- E4 first: it is the one the other three depend on ------------- */
+  if (X.e4) {
+    const rows = X.e4.slice().sort((a,b) => (a.M||0)-(b.M||0));
+    sub("E4 \u2014 how many ideologies?",
+        "Four axes, because held-out fit alone is not a finding about M. <b>V7</b> is "
+        + "whole-actor holdout, the primary criterion: loss per unit on actors the fit "
+        + "never saw, scored with the actor layer at its prior. <b>worst p</b> is the "
+        + "least significant coherence ratio across components \u2014 above 0.05 means some "
+        + "component's structure does not beat a matched random support. <b>under 1</b> is "
+        + "the largest split signal: the share of a component's own elevated pairs that "
+        + "co-occur <i>less</i> than its margins predict, which W \u2265 0 cannot express.");
+    const t = el("table");
+    table(t, [
+      {label:"config", sort:false, key:r=>r.name, cell:r=>td(r.name)},
+      {label:"M", sort:false, key:r=>r.M, cell:r=>td(r.M,"n")},
+      {label:"V7 loss", sort:false, key:r=>0, cell:r=>td(fmt((r.v7||{}).loss_model,4),"n")},
+      {label:"V7 gain", sort:false, key:r=>0,
+       cell:r=>td(fmt((r.v7||{}).gain_vs_background,4),"n")},
+      {label:"held-out", sort:false, key:r=>0, cell:r=>td(
+         r.held_out==null?"\u2014":Math.round(r.held_out).toLocaleString(),"n")},
+      {label:"backgr.", sort:false, key:r=>0, cell:r=>td(fmt(r.background,3),"n")},
+      {label:"worst p", sort:false, key:r=>0, cell:r=>{
+         const ps=(r.coherence||[]).map(c=>c.p).filter(x=>x!=null);
+         if(!ps.length) return td("\u2014","n");
+         const w=Math.max(...ps);
+         return el("td",{class:"n",style:`color:${w<0.05?"var(--ok)":"var(--crit)"}`},
+                   w.toFixed(3)); }},
+      {label:"under 1", sort:false, key:r=>0, cell:r=>{
+         const f=(r.split||[]).map(x=>x.frac_under).filter(x=>x!=null);
+         return td(f.length?pct(Math.max(...f)):"\u2014","n"); }},
+      {label:"ideol. share", sort:false, key:r=>0,
+       cell:r=>td(r.edge_mass?pct(r.edge_mass.ideology_share):"\u2014","n")},
+    ], rows);
+    host.append(el("div",{class:"scroll"}, t));
+
+    // per-component coherence, where the WS question actually lands
+    const withCoh = rows.filter(r => (r.coherence||[]).length);
+    if (withCoh.length) {
+      const t2 = el("table");
+      table(t2, [
+        {label:"config", sort:false, key:r=>0, cell:r=>td(r.cfg)},
+        {label:"component", sort:false, key:r=>0, cell:r=>td(r.k)},
+        {label:"support", sort:false, key:r=>0, cell:r=>td(r.support,"n")},
+        {label:"C_k", sort:false, key:r=>0, cell:r=>td(fmt(r.C,3),"n")},
+        {label:"null", sort:false, key:r=>0, cell:r=>td(fmt(r.null,3),"n")},
+        {label:"p", sort:false, key:r=>0, cell:r=>el("td",
+           {class:"n",style:`color:${r.p<0.05?"var(--ok)":"var(--crit)"}`}, fmt(r.p,3))},
+        {label:"pinned units", sort:false, key:r=>0, cell:r=>td(
+           r.units==null?"\u2014":r.units.toLocaleString(),"n")},
+      ], withCoh.flatMap(r => (r.coherence||[]).map(c =>
+           ({cfg:r.name, ...c, units:(r.pinned_units||{})[c.k]}))));
+      host.append(el("p",{class:"note",html:
+        "Per component. <b>pinned units</b> is the evidence behind that component's C4 "
+        + "anchors \u2014 the column to read beside any WS number, since three actors and "
+        + "73 units can fix a label without estimating a profile."}));
+      host.append(el("div",{class:"scroll"}, t2));
+    }
+  }
+
+  /* ---- E1: the ladder ------------------------------------------------ */
+  if (X.e1) {
+    sub("E1 \u2014 does more of the ladder predict community better?",
+        "<b>accuracy</b> is leave-one-actor-out multinomial prediction of an actor's "
+        + "community from the fitted membership alone, against <b>base</b>, the "
+        + "majority-class floor. Every fit withholds identity from the design, or the "
+        + "question would be circular. Arms are size- and anchor-matched: the "
+        + "<code>rung</code> arm samples each rung down to the 13 nodes of V, and the "
+        + "<code>random</code> arm matches each ladder depth's node count and supervision "
+        + "drawn from the whole codebook. Without that control, a cumulative arm beating a "
+        + "single rung could be the ladder or could be the extra nodes.");
+    const by = {};
+    X.e1.forEach(r => {
+      const key = r.arm + "|" + r.rung;
+      (by[key] = by[key] || {arm:r.arm, subset:r.rung, n:r.nodes, c2:r.c2_links,
+                             acc:[], ari:[], base:r.baseline}).acc.push(r.accuracy);
+      by[key].ari.push(r.ari);
+    });
+    const mean = a => a.reduce((x,y)=>x+y,0)/a.length;
+    const sd = a => a.length<2?null:Math.sqrt(mean(a.map(x=>(x-mean(a))**2)));
+    const rows = Object.values(by).sort((a,b) => a.arm.localeCompare(b.arm) || a.n-b.n);
+    const t = el("table");
+    table(t, [
+      {label:"arm", sort:false, key:r=>0, cell:r=>td(r.arm)},
+      {label:"subset", sort:false, key:r=>0, cell:r=>td(r.subset)},
+      {label:"nodes", sort:false, key:r=>0, cell:r=>td(r.n,"n")},
+      {label:"C2 links", sort:false, key:r=>0, cell:r=>td(r.c2,"n")},
+      {label:"draws", sort:false, key:r=>0, cell:r=>td(r.acc.length,"n")},
+      {label:"accuracy", sort:false, key:r=>0, cell:r=>td(
+         fmt(mean(r.acc),3) + (sd(r.acc)!=null?` \u00b1${sd(r.acc).toFixed(3)}`:""),"n")},
+      {label:"base", sort:false, key:r=>0, cell:r=>td(fmt(r.base,3),"n")},
+      {label:"ARI", sort:false, key:r=>0, cell:r=>td(fmt(mean(r.ari),3),"n")},
+    ], rows);
+    host.append(el("div",{class:"scroll"}, t));
+    host.append(el("p",{class:"cap"},
+      "Single-rung fits contain no C2 links at all: every theory-supplied edge is "
+      + "cross-rung, so a one-rung model has the anchors but none of the network."));
+  }
+
+  /* ---- E2: the pin ladder -------------------------------------------- */
+  if (X.e2) {
+    sub("E2 \u2014 what pinned actors alone recover",
+        "Against a reference fit with the full metadata design, each arm refits with only "
+        + "n pins per ideology and identity withheld. Recovery is reported on four things "
+        + "because they come apart: the profiles by rank and by which concepts they put on "
+        + "top, the association layer, and the actor assignments. A pin ladder can recover "
+        + "the assignments long before the edges.");
+    const t = el("table");
+    table(t, [
+      {label:"arm", sort:false, key:r=>0, cell:r=>td(
+         r.kind==="reference"?"reference (metadata)":`${r.n_pins} pin${r.n_pins>1?"s":""}/ideology`)},
+      {label:"pinned", sort:false, key:r=>0, cell:r=>td(r.n_pinned,"n")},
+      {label:"V7 loss", sort:false, key:r=>0, cell:r=>td(fmt((r.v7||{}).loss_model,4),"n")},
+      {label:"\u03b7 rank", sort:false, key:r=>0, cell:r=>{
+         const p=(r.recovery||{}).per_ideology; if(!p) return td("\u2014","n");
+         return td(fmt(p.reduce((s,x)=>s+x.eta_spearman,0)/p.length,3),"n"); }},
+      {label:"top-20", sort:false, key:r=>0, cell:r=>{
+         const p=(r.recovery||{}).per_ideology; if(!p) return td("\u2014","n");
+         return td(fmt(p.reduce((s,x)=>s+x.top_jaccard,0)/p.length,3),"n"); }},
+      {label:"W rank", sort:false, key:r=>0,
+       cell:r=>td(fmt((r.recovery||{}).W_spearman,3),"n")},
+      {label:"assignment", sort:false, key:r=>0,
+       cell:r=>td(r.recovery?pct(r.recovery.assignment_agree):"\u2014","n")},
+    ], X.e2.slice().sort((a,b) =>
+         (a.kind==="reference"?-1:0)-(b.kind==="reference"?-1:0) || a.n_pins-b.n_pins));
+    host.append(el("div",{class:"scroll"}, t));
+  }
+
+  /* ---- E3: intervention targets -------------------------------------- */
+  if (X.e3 && X.e3[0]) {
+    sub("E3 \u2014 targets worth examining",
+        "<b>centrality</b> is edge mass inside the ideology's own support; <b>boundary</b> "
+        + "is mass crossing out of it, and the two are C6's ratio decomposed by node, so "
+        + "they sum to exactly what C6 reports in aggregate. <b>leak</b> is the boundary "
+        + "share. <b>up</b> is ladder position \u2014 3 for a value, 0 for a "
+        + "rationalization \u2014 since values ground attitudes and attitudes ground "
+        + "beliefs, which makes a value upstream of what it supports.",
+        "These are targets worth examining and nothing stronger. The model is "
+        + "observational co-occurrence at a chosen timescale and carries no causal "
+        + "warrant; the route to one, running belief dynamics on a fitted landscape, is "
+        + "named in the write-up's extensions and is not implemented. A high score says "
+        + "removing the node would restructure the fitted <i>description</i>.");
+    const sc = X.e3[0].scores || [];
+    const ctl = el("div",{class:"ctl"});
+    const sel = el("select",{});
+    [...new Set(sc.map(r=>r.k))].forEach(k => sel.append(el("option",{value:k},k)));
+    ctl.append(el("label",{},"Ideology ",sel));
+    host.append(ctl);
+    const wrap = el("div",{class:"scroll"});
+    host.append(wrap);
+    const draw = () => {
+      const t = el("table");
+      table(t, [
+        {label:"node", key:r=>r.node, cell:r=>{
+           const c=el("td",{}, el("span",{class:"chip rung"+RUNGS.indexOf(r.rung)},r.rung),
+                      " "+r.node);
+           hover(c, `<b>${r.node}</b><br>${r.text}`); return c; }},
+        {label:"\u03b7", key:r=>r.eta, cell:r=>td(fmt(r.eta,2),"n")},
+        {label:"centrality", key:r=>r.centrality, cell:r=>td(fmt(r.centrality,2),"n")},
+        {label:"boundary", key:r=>r.boundary, cell:r=>td(fmt(r.boundary,2),"n")},
+        {label:"leak", key:r=>r.leak, cell:r=>td(r.leak==null?"\u2014":pct(r.leak),"n")},
+        {label:"up", key:r=>r.upstream, cell:r=>td(r.upstream,"n")},
+        {label:"shared", sort:false, key:r=>0,
+         cell:r=>td((r.shared_with||[]).join(", ")||"\u2014")},
+        {label:"divergence", key:r=>r.divergence||0,
+         cell:r=>td(fmt(r.divergence,2),"n")},
+        {label:"element", sort:false, key:r=>0, cell:r=>el("td",{class:"w"},r.text)},
+      ], sc.filter(r=>r.k===sel.value), {limit:40});
+      wrap.innerHTML=""; wrap.append(t);
+    };
+    sel.addEventListener("change", draw); draw();
+  }
+})();
+
+/* -------------------------------------------------- 7. diagnostics */
+table($("#cohtbl"), [
+  {label:"ideology", sort:false, key:r=>r.k, cell:r=>el("td",{}, el("span",{class:"idc"},
+     el("span",{class:"dot",style:`background:${IDCOL(IDS.indexOf(r.k))}`}), r.k))},
+  {label:"support", sort:false, key:r=>r.support, cell:r=>td(r.support,"n")},
+  {label:"C_k", sort:false, key:r=>r.C, cell:r=>td(fmt(r.C,3),"n")},
+  {label:"null mean", sort:false, key:r=>r.null, cell:r=>td(fmt(r.null,3),"n")},
+  {label:"p", sort:false, key:r=>r.p, cell:r=>td(r.p==null?"\u2014":r.p.toFixed(3),"n")},
+  {label:"verdict", sort:false, key:r=>0, cell:r=>{
+     const good = r.p != null && r.p < .05;
+     return el("td",{style:`color:${good?"var(--ok)":"var(--crit)"}`},
+       good ? "above null" : "NOT above null"); }},
+], D.coherence);
+
+statStrip($("#emstats"), [
+  [`shared ${W0}`, D.edge_mass.shared.toLocaleString(), "culture"],
+  [`ideology \u03a3 ${Wk}`, D.edge_mass.ideology.toLocaleString(), "contested"],
+  ["ideological share", pct(D.edge_mass.share), "of association mass"],
+]);
+
+function barChart(host, rows, colorFn, label){
+  const W = 620, rowH = 26, H = rows.length*rowH + 34;
+  const max = Math.max(...rows.map(r => r.a + r.b), 1e-9);
+  const svg = s("svg",{viewBox:`0 0 ${W} ${H}`,width:W,height:H,role:"img",
+    "aria-label":label});
+  rows.forEach((r,i) => {
+    const y = i*rowH + 8, xs = 74, avail = W - xs - 90;
+    const t = s("text",{x:xs-10,y:y+12,fill:"var(--ink-2)","font-size":11,
+      "text-anchor":"end","font-family":"var(--mono)"}); t.textContent = r.label;
+    svg.append(t);
+    const wa = avail*r.a/max, wb = avail*r.b/max;
+    if (wa > 0){ const q = s("rect",{x:xs,y:y+2,width:Math.max(wa,1),height:13,rx:2,
+      fill:colorFn[0]}); hover(q, `<b>${r.label}</b><br>${r.la}: ${fmt(r.a,2)}`); svg.append(q); }
+    if (wb > 0){ const q = s("rect",{x:xs+wa+2,y:y+2,width:Math.max(wb,1),height:13,rx:2,
+      fill:colorFn[1]}); hover(q, `<b>${r.label}</b><br>${r.lb}: ${fmt(r.b,2)}`); svg.append(q); }
+    const v = s("text",{x:xs+wa+wb+9,y:y+13,fill:"var(--faint)","font-size":10,
+      "font-family":"var(--mono)"}); v.textContent = r.extra; svg.append(v);
+  });
+  host.innerHTML = ""; host.append(svg);
+}
+barChart($("#blockchart"),
+  Object.entries(D.edge_mass.per_block).map(([b,r]) => ({label:b, a:r.shared, b:r.ideology,
+    la:`shared ${W0}`, lb:`ideology \u03a3${Wk}`, extra:`${r.pairs} pairs`})),
+  ["var(--muted)","var(--cb)"], "Association mass per type block");
+$("#blockchart").insertAdjacentHTML("afterend",
+  `<div class="legend"><span><span class="swatch" style="background:var(--muted)"></span>
+   shared W<sup>(0)</sup> (culture)</span><span><span class="swatch" style="background:var(--cb)"></span>
+   ideology \u03a3 W<sub>k</sub></span><span>Intra-rung blocks (BB especially) compete with cross-rung
+   edges for the same co-occurrence \u2014 section 5's lateral-absorption watch.</span></div>`);
+
+const SHORT = {"cultural":"cultural", "consensually ideological":"consensual",
+  "contested by presence":"by presence", "contested by exclusion":"by exclusion",
+  "contested relationally":"relational", "ideological":"ideological"};
+const TYPO = Object.entries(D.typology).sort((a,b) => b[1]-a[1]);
+barChart($("#typchart"), TYPO.map(([k,v]) => ({label:SHORT[k] || k, a:v, b:0,
+  la:k, lb:"", extra:`${v} concepts \u2014 ${k}`})), ["var(--is)","transparent"],
+  "Concepts by contestation type");
+$("#typchart").insertAdjacentHTML("afterend",
+  `<div class="legend"><span><b>cultural</b>: no ideology elevates it; association only
+   in W<sup>(0)</sup></span><span><b>by presence</b>: some ideologies elevate it, others do
+   not</span><span><b>relational</b>: shared elevated node, diverging W<sub>k</sub> rows</span></div>`);
+
+table($("#logtbl"), [
+  {label:"ideology", sort:false, key:r=>r.k, cell:r=>td(r.k)},
+  {label:"nodes", sort:false, key:r=>0, cell:r=>td(r.nodes.join(" + "))},
+  {label:"\u03b7", sort:false, key:r=>0, cell:r=>td(r.eta.map(e=>e.toFixed(2)).join(" / "),"n")},
+  {label:"mass", sort:false, key:r=>r.mass, cell:r=>el("td",
+     {class:"n",style:`color:${r.mass>D.meta.pi_bar*0.9?"var(--crit)":"var(--warn)"}`},
+     r.mass.toFixed(4) + " / " + D.meta.pi_bar)},
+  {label:"elements", sort:false, key:r=>0,
+   cell:r=>el("td",{class:"w"}, r.elements.map(e => el("div",{},e.slice(0,90))))},
+], D.logical.length ? D.logical
+  : [{k:"\u2014",nodes:["none"],eta:[],mass:0,elements:["no ideology holds both sides of an incompatible set"]}]);
+
+table($("#ladtbl"), [
+  {label:"ideology", key:r=>r.k, cell:r=>td(r.k)},
+  {label:"pair", key:r=>r.pair[0], cell:r=>{
+     const c = el("td",{}, r.pair.join("\u2013"), " ",
+       el("span",{class:"chip rung0"}, r.layers.join("\u2013")));
+     hover(c, r.pair.map(id => `<b>${id}</b> ${NODE[id]?NODE[id].text:""}`).join("<br>"));
+     return c; }},
+  {label:"R", key:r=>r.R, cell:r=>el("td",{class:"n",
+     style:`color:${r.R>5?"var(--crit)":"var(--warn)"}`}, r.R.toFixed(2))},
+  {label:"expected", key:r=>r.expected, cell:r=>td(r.expected.toFixed(1),"n")},
+], D.ladder);
+})();
+</script>

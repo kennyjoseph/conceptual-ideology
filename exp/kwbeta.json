@@ -1,0 +1,171 @@
+{
+ "arm": "kwbeta-F1-x0",
+ "facets": 1,
+ "extra": 0,
+ "cached": true,
+ "columns": [
+  "background",
+  "CB",
+  "IS"
+ ],
+ "rows": [
+  {
+   "covariate": "(intercept)",
+   "beta": [
+    -2.1993,
+    1.1729,
+    1.0264
+   ]
+  },
+  {
+   "covariate": "m_media",
+   "beta": [
+    -0.2162,
+    0.1263,
+    0.0899
+   ],
+   "n": 85,
+   "univariate": -0.475,
+   "mean_units": 110,
+   "multivariate": 0.101
+  },
+  {
+   "covariate": "m_family",
+   "beta": [
+    -0.6635,
+    0.3056,
+    0.3579
+   ],
+   "n": 68,
+   "univariate": 1.352,
+   "mean_units": 97,
+   "multivariate": -0.17
+  },
+  {
+   "covariate": "m_faith",
+   "beta": [
+    0.8417,
+    -0.3045,
+    -0.5372
+   ],
+   "n": 49,
+   "univariate": 3.784,
+   "mean_units": 88,
+   "multivariate": 0.85
+  },
+  {
+   "covariate": "m_pronouns",
+   "beta": [
+    0.8892,
+    -0.8115,
+    -0.0777
+   ],
+   "n": 35,
+   "univariate": -4.255,
+   "mean_units": 32,
+   "multivariate": -3.161
+  },
+  {
+   "covariate": "m_resist",
+   "beta": [
+    0.2141,
+    -0.1059,
+    -0.1082
+   ],
+   "n": 23,
+   "univariate": -1.839,
+   "mean_units": 157,
+   "multivariate": 0.011
+  },
+  {
+   "covariate": "m_blm",
+   "beta": [
+    0.4653,
+    -0.5518,
+    0.0865
+   ],
+   "n": 23,
+   "univariate": -4.574,
+   "mean_units": 34,
+   "multivariate": -3.356
+  },
+  {
+   "covariate": "m_conservative",
+   "beta": [
+    -0.2425,
+    0.3396,
+    -0.097
+   ],
+   "n": 33,
+   "univariate": 5.009,
+   "mean_units": 138,
+   "multivariate": 1.927
+  },
+  {
+   "covariate": "m_liberal",
+   "beta": [
+    -0.0144,
+    0.0218,
+    -0.0074
+   ],
+   "n": 24,
+   "univariate": -1.012,
+   "mean_units": 130,
+   "multivariate": 0.148
+  },
+  {
+   "covariate": "m_maga",
+   "beta": [
+    -0.1801,
+    1.0208,
+    -0.8407
+   ],
+   "n": 61,
+   "univariate": 7.476,
+   "mean_units": 97,
+   "multivariate": 6.209
+  },
+  {
+   "covariate": "m_guns",
+   "beta": [
+    -0.078,
+    0.1452,
+    -0.0672
+   ],
+   "n": 13,
+   "univariate": 5.56,
+   "mean_units": 239,
+   "multivariate": 1.466
+  },
+  {
+   "covariate": "m_prolife",
+   "beta": [
+    0.5306,
+    -0.2333,
+    -0.2973
+   ],
+   "n": 13,
+   "univariate": 7.421,
+   "mean_units": 38,
+   "multivariate": 0.435
+  }
+ ],
+ "held_out": null,
+ "note": "holdout=0; no held-out anything is computed",
+ "fingerprint": {
+  "frozen": "2026-09-04 11:27",
+  "coding": {
+   "path": "snapshot/coding.jsonl",
+   "sha8": "b08d4178",
+   "lines": 64459
+  },
+  "actors": {
+   "path": "snapshot/actors.csv",
+   "sha8": "b99c0439"
+  },
+  "parquet": {
+   "path": "snapshot/corpus.parquet",
+   "sha8": "0c0377a8"
+  }
+ }
+}

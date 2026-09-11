@@ -1,0 +1,41 @@
+\begin{table}[t]
+\centering
+\small
+\caption{Highest-rate concepts per ideology in the pins-only fit ($F_k{=}1$, 2012--2022, $\mathcal{C}1$ and $\mathcal{C}2$ withheld). $\eta$ is the log-rate deviation from the corpus background. A \textcolor{green!55!black}{\checkmark} marks a concept the codebook assigns to this ideology -- an assignment the fit never saw, since $\mathcal{C}1$ was withheld.}
+\label{tab:top-concepts}
+\begin{tabular}{>{\raggedright\arraybackslash}p{8.6cm}lr}
+\toprule
+Concept & Type & $\eta$ \\
+\midrule
+\multicolumn{3}{@{}l}{\footnotesize\itshape Colorblindness} \\
+Positive evaluation of a shared national identity over subgroup identities. \textcolor{green!55!black}{\checkmark} & Attr & 1.79 \\
+Race-consciousness is itself a cause of division and discrimination. [Race salience] \textcolor{green!55!black}{\checkmark} & Bel & 1.63 \\
+Race is a superficial trait with no bearing on worth, ability, or character. \textcolor{green!55!black}{\checkmark} & Bel & 1.61 \\
+\addlinespace
+\multicolumn{3}{@{}l}{\footnotesize\itshape Intersectionality} \\
+Collective liberation \textcolor{green!55!black}{\checkmark} & Val & 1.09 \\
+Justice as the redress of structural inequality \textcolor{green!55!black}{\checkmark} & Val & 0.93 \\
+Solidarity across marginalized groups \textcolor{green!55!black}{\checkmark} & Val & 0.92 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\small
+\caption{Strongest excess-association edges per ideology. $W_k$ is the kernel-weighted pair count in excess of what the actors' own margins and the shared association layer predict; $W^{(0)}$ is that shared layer's mass on the same pair, so a pair with $W^{(0)} > W_k$ is closer to common currency than to this ideology's own structure.}
+\label{tab:top-edges}
+\begin{tabular}{llcrr>{\raggedright\arraybackslash}p{7.2cm}}
+\toprule
+Ideology & Pair & Rungs & $W_k$ & $W^{(0)}$ & Concepts \\
+\midrule
+Colorblindness & B18--R7 & BR & 3.32 & 4.08 & Persistent racial disparities are mostly explained by differences in cultural values, work ethic, and family structure across groups. [Cultural Racism] \newline The high rate of single-parent households among Black families explains gaps in income, education, and incarceration (and similar). [Cultural Racism] \\
+ & B8--B9 & BB & 2.91 & 0.23 & Ignoring race allows existing racial arrangements to persist unchallenged. [Race salience] \newline Races are real, biologically fixed categories. \\
+ & A3--A4 & AA & 2.87 & 0.85 & Positive evaluation of explicit racial identification and racial group consciousness. [Race salience] \newline Positive evaluation of white racial pride and white identity organizing. [Race salience] \\
+\addlinespace
+Intersectionality & B26--B31 & BB & 4.35 & 0.91 & A person's social position is the product of how their identities combine, not the sum of each considered separately. [Multiple, intersecting identities] \newline Change that begins from the most marginalized improves conditions for everyone. [Margins as focal point] \\
+ & B30--B31 & BB & 4.19 & 1.02 & Those at the intersections of multiple marginalizations experience harms that are invisible to analyses using any single category. \newline Change that begins from the most marginalized improves conditions for everyone. [Margins as focal point] \\
+ & B26--B27 & BB & 4.06 & 2.19 & A person's social position is the product of how their identities combine, not the sum of each considered separately. [Multiple, intersecting identities] \newline Intersecting identities include dominant as well as marginalized ones. [Identities need not be marginalized] \\
+\bottomrule
+\end{tabular}
+\end{table}

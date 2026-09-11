@@ -1,0 +1,48 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.08}
+\caption{Facet ladder. All arms use units from 2012--2022, withhold $\mathcal{C}1$ and $\mathcal{C}2$ while retaining $\mathcal{C}3$, pin three actors per modelled ideology, and use intercept-only $m_a$. $M$ is the number of modelled components; \emph{free} components have no pins or codebook assignment. Held-out is Poisson loss (lower is better); $\overline{\mathrm{AUC}}$ is macro concept-mapping AUC against the withheld codebook. Share is the percentage of actors assigned to each component, ordered as each block indicates; a share of 0 means the component retains only its three pinned actors. With 200 permutations the smallest attainable $p$ is .005. A dash marks a component with no association mass, for which $C_k$ is undefined. Coherence lists each component, in bold where its ratio $C_k$ clears the matched permutation null at $p<.01$; the ratios themselves are in Table~\ref{tab:ladder-full}. The selected arm is set in bold.}
+\label{tab:ladder}
+\begin{tabular}{@{}lrrrrl@{}}
+\toprule
+Arm & $M$ & Held-out & $\overline{\mathrm{AUC}}$ &
+Share (\%) & Coherence $C_k$ \\
+\midrule
+
+\multicolumn{6}{@{}l}{\textit{Fixed facets: Share = CB / IS}}\\[-2pt]
+\texttt{\textbf{F1}} & 2 & 21,680 & .878 & 36/64 &
+  \textbf{CB}, \textbf{IS} \\
+\texttt{F2} & 2 & 21,468 & .812 & 45/55 &
+  \textbf{CB}, \textbf{IS} \\
+\texttt{F3} & 2 & 21,512 & .728 & 93/7 &
+  CB, IS \\
+\texttt{F4} & 2 & 21,593 & .762 & 86/14 &
+  CB, \textbf{IS} \\
+
+\addlinespace[2pt]
+\multicolumn{6}{@{}l}{\textit{+ free component: Share = CB / IS / free}}\\[-2pt]
+\texttt{F1+free} & 3 & 21,688 & .869 & 38/62/0 &
+  \textbf{CB}, \textbf{IS}, free~-- \\
+\texttt{F2+free} & 3 & 21,463 & .696 & 96/4/0 &
+  \textbf{CB}, \textbf{IS}, free~-- \\
+\texttt{F3+free} & 3 & 21,459 & .761 & 0/0/99 &
+  CB, \textbf{IS}, free \\
+\texttt{F4+free} & 3 & 21,574 & .752 & 0/50/49 &
+  CB, \textbf{IS}, free \\
+
+\addlinespace[2pt]
+\multicolumn{6}{@{}l}{\textit{+ White Supremacy: Share = CB / WS / IS}}\\[-2pt]
+\texttt{F1-ws} & 3 & 21,729 & .769 & 0/28/72 &
+  CB, \textbf{WS}, \textbf{IS} \\
+\texttt{F2-ws} & 3 & 21,542 & .717 & 86/0/14 &
+  \textbf{CB}, WS~--, \textbf{IS} \\
+\texttt{F3-ws} & 3 & 21,450 & .658 & 0/0/99 &
+  CB, WS~--, \textbf{IS} \\
+\texttt{F4-ws} & 3 & 21,475 & .658 & 0/0/99 &
+  CB, WS~--, \textbf{IS} \\
+
+\bottomrule
+\end{tabular}
+\end{table}

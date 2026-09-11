@@ -1,0 +1,68 @@
+# Deny by default. This repository sits on top of raw Twitter/X data that must not be
+# published: tweet text, usernames, profile bios (which contain scraped email addresses)
+# and user ids. Rather than list what to exclude and risk missing a file, everything of a
+# data-bearing type is ignored and the release artifacts are allow-listed at the bottom.
+#
+# Before the first commit, check `git status --porcelain` and confirm that no parquet,
+# pickle, coding file or built report appears.
+
+# --- data-bearing formats, ignored wholesale -------------------------------------------
+*.parquet
+*.pkl
+*.jsonl
+*.ipynb
+*.log
+
+# --- the private corpus ----------------------------------------------------------------
+# snapshot/ is the working data: actors.csv carries usernames, bios and the email
+# addresses scraped with them, and corpus.parquet carries tweet text. Only the anonymized
+# derivative under release/ is publishable.
+snapshot/
+actor_ideology_affiliation.csv
+
+# --- built reports: these inline every actor's username and bio ------------------------
+*.html
+report_data.json
+.report/
+
+# --- fit cache and run outputs ---------------------------------------------------------
+exp/fits/
+exp/logs/
+# `final2-pick` writes these to the working directory; paper/ holds the copies the
+# write-up includes, so the root ones are regenerable output rather than source.
+/fit_final2_concepts.csv
+/fit_final2_edges.csv
+
+# --- the superseded code and data kept locally for reference only ----------------------
+old/
+
+# --- environment and tooling -----------------------------------------------------------
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+
+# --- LaTeX build products --------------------------------------------------------------
+*.aux
+*.out
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+# --- allow-list: the release data and the paper's artifacts ----------------------------
+# The release data is a derivative: pseudonymous actor ids, no tweet text, no bios.
+# Built by make_release_data.py, which documents what is dropped and why.
+!release/
+!release/snapshot/
+!release/snapshot/*.parquet
+!release/snapshot/*.jsonl
+
+# The codebook is the paper's instrument and carries no personal data.
+!ideology_nodes_v3.csv
+!ideology_edges_v3.csv
+!ideology_forbidden_edges_v3.csv
+
+# The report template is source, not a built report.
+!report_template.html

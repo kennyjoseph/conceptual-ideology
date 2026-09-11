@@ -1,0 +1,86 @@
+\subsection*{The alignment regression under keyword covariates}
+
+The arms above run with an intercept-only design, which keeps the community-recovery
+score honest but leaves $\beta$ with nothing to generalize the pins by. This arm puts
+covariates back: eleven binary indicators read off the actors' profile descriptions
+(occupational---\texttt{m\_media}, \texttt{m\_family}---and ideological---\texttt{m\_maga},
+\texttt{m\_blm}, \texttt{m\_pronouns}, and so on), standardized and entered in $m_a$
+alongside the intercept. Everything else matches the selected arm: $F_k{=}1$, 2012--2022,
+white supremacy not modeled, $\mathcal{C}1$ and $\mathcal{C}2$ withheld with
+$\mathcal{C}3$ retained, and the same six pinned actors. It is fit on all 62{,}045 units
+with no holdout, so nothing reported here is a test---the table is a description of the
+fitted alignment regression, and the model-selection evidence stays with the arms above.
+
+Read the coefficients as logits of $\theta_a = \mathrm{softmax}(\beta' m_a + \xi_a)$:
+one column per component plus the background coordinate, per standard deviation of a
+standardized indicator. The regression rather than the actor draw is carrying the
+alignment here---across actors, $\beta' m_a$ has standard deviation 1.52, 1.62 and 1.31
+on the three columns against 0.12, 0.31 and 0.33 for $\xi_a$---so $\beta$ is close to a
+multivariate regression of each actor's fitted $\mathrm{CB}-\mathrm{IS}$ log-odds on the
+covariates. The last two columns give that regression directly, univariate and
+multivariate, because the gap between them is what the $\beta$ column cannot show on its
+own.
+
+\begin{table}[t]
+\centering
+\small
+\caption{The alignment regression under keyword covariates (arm
+\texttt{kwbeta-F1-x0}; 607 actors, 62{,}045 units, no holdout). Columns \emph{bg},
+\emph{CB} and \emph{IS} are $\beta$'s three logit columns, per standard deviation of the
+standardized indicator; $n$ is the number of actors carrying the keyword. \emph{Univariate}
+and \emph{multivariate} are OLS coefficients of the fitted $\mathrm{CB}-\mathrm{IS}$
+log-odds on the raw indicator, alone and jointly with the other ten.}
+\label{tab:kwbeta}
+\begin{tabular}{lrrrrrr}
+\toprule
+Covariate & bg & CB & IS & $n$ & Univariate & Multivariate \\
+\midrule
+(intercept)             & $-2.199$ & $1.173$  & $1.026$  &    &         &        \\
+\addlinespace
+\texttt{m\_maga}         & $-0.180$ & $1.021$  & $-0.841$ & 61 & $7.48$  & $6.21$  \\
+\texttt{m\_conservative} & $-0.242$ & $0.340$  & $-0.097$ & 33 & $5.01$  & $1.93$  \\
+\texttt{m\_guns}         & $-0.078$ & $0.145$  & $-0.067$ & 13 & $5.56$  & $1.47$  \\
+\texttt{m\_faith}        & $0.842$  & $-0.304$ & $-0.537$ & 49 & $3.78$  & $0.85$  \\
+\texttt{m\_prolife}      & $0.531$  & $-0.233$ & $-0.297$ & 13 & $7.42$  & $0.43$  \\
+\addlinespace
+\texttt{m\_pronouns}     & $0.889$  & $-0.811$ & $-0.078$ & 35 & $-4.25$ & $-3.16$ \\
+\texttt{m\_blm}          & $0.465$  & $-0.552$ & $0.086$  & 23 & $-4.57$ & $-3.36$ \\
+\texttt{m\_resist}       & $0.214$  & $-0.106$ & $-0.108$ & 23 & $-1.84$ & $0.01$  \\
+\texttt{m\_liberal}      & $-0.014$ & $0.022$  & $-0.007$ & 24 & $-1.01$ & $0.15$  \\
+\addlinespace
+\texttt{m\_media}        & $-0.216$ & $0.126$  & $0.090$  & 85 & $-0.47$ & $0.10$  \\
+\texttt{m\_family}       & $-0.663$ & $0.306$  & $0.358$  & 68 & $1.35$  & $-0.17$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+One covariate carries the alignment. \texttt{m\_maga} is the only large coefficient
+($+1.02$ toward colorblindness, $-0.84$ away from intersectionality), with
+\texttt{m\_pronouns} and \texttt{m\_blm} the substantial markers in the other direction;
+\texttt{m\_conservative} and \texttt{m\_guns} point the right way but an order of
+magnitude weaker, and the two occupational columns sit at zero, which is what an
+occupational control should do. \texttt{m\_faith} is the one column that loads on the
+\emph{background} coordinate rather than on either ideology ($+0.84$, with negative
+weights on both): religious self-description marks an actor as speaking less
+ideologically in this framework's sense, not as speaking for one side.
+
+Two coefficients must not be read as absence of signal, and this is what the univariate
+column is for. \texttt{m\_prolife} goes from $7.42$ alone to $0.43$ jointly and
+\texttt{m\_resist} from $-1.84$ to $0.01$: all thirteen \texttt{m\_prolife} actors also
+carry \texttt{m\_maga}, and thirteen of the twenty-three \texttt{m\_resist} actors carry
+\texttt{m\_blm} or \texttt{m\_liberal}, so a stronger collinear column takes the credit in
+the joint fit. The same attenuation, less severely, affects \texttt{m\_conservative} and
+\texttt{m\_guns}. A multivariate coefficient near zero here reports redundancy given the
+other ten indicators, not that the keyword fails to distinguish adherents.
+
+Three limits bound what this table can support. First, pinned actors contribute exactly
+zero gradient to $\beta$, and none of the six pins carries a covariate, so $\beta$'s
+directions are identified entirely from unpinned actors' fitted memberships---the
+covariates never touch the labeled anchors. Second, 321 of the 607 actors carry no
+keyword at all and receive the reference row, so the regression informs about half the
+corpus. Third, keyword matching has no stance channel: the words for a politics are also
+the words its opponents use for it, and the residual errors are asymmetric, each landing
+on an actor of the opposing side. Taken with the companion result that these covariates
+do not improve whole-actor holdout while the community label does, the table is best read
+as a description of which self-descriptions travel with which component in this corpus,
+and not as evidence that profile text identifies alignment.

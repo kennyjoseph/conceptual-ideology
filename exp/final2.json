@@ -1,0 +1,600 @@
+{
+ "rows": [
+  {
+   "arm": "f2-F1-x0",
+   "facets": 1,
+   "extra": 0,
+   "cached": true,
+   "M": 2,
+   "names": [
+    "CB",
+    "IS"
+   ],
+   "n_pins": 6,
+   "units": 62045,
+   "actors": 607,
+   "held_out": 21680.097427517416,
+   "share": [
+    220,
+    387
+   ],
+   "mapping": {
+    "per_ideology": [
+     {
+      "ideology": "CB",
+      "support": 58,
+      "auc": 0.8531,
+      "precision": 0.5862,
+      "recall": 0.85,
+      "gold": 40
+     },
+     {
+      "ideology": "IS",
+      "support": 44,
+      "auc": 0.9028,
+      "precision": 0.75,
+      "recall": 0.825,
+      "gold": 40
+     }
+    ],
+    "macro_auc": 0.878
+   },
+   "coherence": [
+    {
+     "k": "CB",
+     "C": 1.4454254960104174,
+     "null": 0.7158413963127489,
+     "p": 0.0,
+     "support": 58
+    },
+    {
+     "k": "IS",
+     "C": 4.384709614200511,
+     "null": 0.8639039482386768,
+     "p": 0.0,
+     "support": 44
+    }
+   ],
+   "mass": [
+    275.0,
+    329.0
+   ],
+   "min_effective_facet": 504.6,
+   "background": 0.0048
+  },
+  {
+   "arm": "f2-F2-x0",
+   "facets": 2,
+   "extra": 0,
+   "cached": true,
+   "M": 2,
+   "names": [
+    "CB",
+    "IS"
+   ],
+   "n_pins": 6,
+   "units": 62045,
+   "actors": 607,
+   "held_out": 21468.342115420735,
+   "share": [
+    275,
+    332
+   ],
+   "mapping": {
+    "per_ideology": [
+     {
+      "ideology": "CB",
+      "support": 84,
+      "auc": 0.7764,
+      "precision": 0.4524,
+      "recall": 0.95,
+      "gold": 40
+     },
+     {
+      "ideology": "IS",
+      "support": 84,
+      "auc": 0.8483,
+      "precision": 0.4643,
+      "recall": 0.975,
+      "gold": 40
+     }
+    ],
+    "macro_auc": 0.8124
+   },
+   "coherence": [
+    {
+     "k": "CB",
+     "C": 2.242426292395893,
+     "null": 1.3622986975578661,
+     "p": 0.005,
+     "support": 84
+    },
+    {
+     "k": "IS",
+     "C": 23.288731490425427,
+     "null": 1.8040974343653842,
+     "p": 0.0,
+     "support": 84
+    }
+   ],
+   "mass": [
+    298.5,
+    306.2
+   ],
+   "min_effective_facet": 458.9,
+   "background": 0.0038
+  },
+  {
+   "arm": "f2-F3-x0",
+   "facets": 3,
+   "extra": 0,
+   "cached": true,
+   "M": 2,
+   "names": [
+    "CB",
+    "IS"
+   ],
+   "n_pins": 6,
+   "units": 62045,
+   "actors": 607,
+   "held_out": 21512.40766226483,
+   "share": [
+    564,
+    43
+   ],
+   "mapping": {
+    "per_ideology": [
+     {
+      "ideology": "CB",
+      "support": 91,
+      "auc": 0.6497,
+      "precision": 0.3846,
+      "recall": 0.875,
+      "gold": 40
+     },
+     {
+      "ideology": "IS",
+      "support": 60,
+      "auc": 0.8059,
+      "precision": 0.5333,
+      "recall": 0.8,
+      "gold": 40
+     }
+    ],
+    "macro_auc": 0.7278
+   },
+   "coherence": [
+    {
+     "k": "CB",
+     "C": 4.0468186868713625,
+     "null": 2.9589792898942324,
+     "p": 0.025,
+     "support": 91
+    },
+    {
+     "k": "IS",
+     "C": 1.153384895814905,
+     "null": 1.2279428913436516,
+     "p": 0.6,
+     "support": 60
+    }
+   ],
+   "mass": [
+    389.5,
+    215.4
+   ],
+   "min_effective_facet": 411.8,
+   "background": 0.0035
+  },
+  {
+   "arm": "f2-F4-x0",
+   "facets": 4,
+   "extra": 0,
+   "cached": true,
+   "M": 2,
+   "names": [
+    "CB",
+    "IS"
+   ],
+   "n_pins": 6,
+   "units": 62045,
+   "actors": 607,
+   "held_out": 21592.821684276023,
+   "share": [
+    521,
+    86
+   ],
+   "mapping": {
+    "per_ideology": [
+     {
+      "ideology": "CB",
+      "support": 94,
+      "auc": 0.6743,
+      "precision": 0.4043,
+      "recall": 0.95,
+      "gold": 40
+     },
+     {
+      "ideology": "IS",
+      "support": 70,
+      "auc": 0.8493,
+      "precision": 0.5143,
+      "recall": 0.9,
+      "gold": 40
+     }
+    ],
+    "macro_auc": 0.7618
+   },
+   "coherence": [
+    {
+     "k": "CB",
+     "C": 7.017510554737142,
+     "null": 4.9348603803917115,
+     "p": 0.055,
+     "support": 94
+    },
+    {
+     "k": "IS",
+     "C": 1.8538884755668046,
+     "null": 0.958660693708304,
+     "p": 0.0,
+     "support": 70
+    }
+   ],
+   "mass": [
+    346.3,
+    258.5
+   ],
+   "min_effective_facet": 363.8,
+   "background": 0.0037
+  },
+  {
+   "arm": "f2-F1-x1",
+   "facets": 1,
+   "extra": 1,
+   "cached": true,
+   "M": 3,
+   "names": [
+    "CB",
+    "IS",
+    "free1"
+   ],
+   "n_pins": 6,
+   "units": 62045,
+   "actors": 607,
+   "held_out": 21688.22929736372,
+   "share": [
+    229,
+    378,
+    0
+   ],
+   "mapping": {
+    "per_ideology": [
+     {
+      "ideology": "CB",
+      "support": 62,
+      "auc": 0.8375,
+      "precision": 0.5484,
+      "recall": 0.85,
+      "gold": 40
+     },
+     {
+      "ideology": "IS",
+      "support": 53,
+      "auc": 0.8997,
+      "precision": 0.6792,
+      "recall": 0.9,
+      "gold": 40
+     },
+     {
+      "ideology": "free1",
+      "support": 59,
+      "auc": null,
+      "precision": null,
+      "recall": null,
+      "gold": null
+     }
+    ],
+    "macro_auc": 0.8686
+   },
+   "coherence": [
+    {
+     "k": "CB",
+     "C": 1.3987705016558807,
+     "null": 0.7110797575594558,
+     "p": 0.005,
+     "support": 62
+    },
+    {
+     "k": "IS",
+     "C": 8.932674123576414,
+     "null": 1.082002251814523,
+     "p": 0.0,
+     "support": 53
+    },
+    {
+     "k": "free1",
+     "C": null,
+     "null": null,
+     "p": null,
+     "support": 59
+    }
+   ],
+   "mass": [
+    282.0,
+    320.2,
+    2.5
+   ],
+   "min_effective_facet": 514.4,
+   "background": 0.0038
+  },
+  {
+   "arm": "f2-F2-x1",
+   "facets": 2,
+   "extra": 1,
+   "cached": true,
+   "M": 3,
+   "names": [
+    "CB",
+    "IS",
+    "free1"
+   ],
+   "n_pins": 6,
+   "units": 62045,
+   "actors": 607,
+   "held_out": 21462.92117373051,
+   "share": [
+    583,
+    24,
+    0
+   ],
+   "mapping": {
+    "per_ideology": [
+     {
+      "ideology": "CB",
+      "support": 95,
+      "auc": 0.6274,
+      "precision": 0.4,
+      "recall": 0.95,
+      "gold": 40
+     },
+     {
+      "ideology": "IS",
+      "support": 87,
+      "auc": 0.7646,
+      "precision": 0.4253,
+      "recall": 0.925,
+      "gold": 40
+     },
+     {
+      "ideology": "free1",
+      "support": 86,
+      "auc": null,
+      "precision": null,
+      "recall": null,
+      "gold": null
+     }
+    ],
+    "macro_auc": 0.696
+   },
+   "coherence": [
+    {
+     "k": "CB",
+     "C": 7.236440350897657,
+     "null": 5.090259428020071,
+     "p": 0.005,
+     "support": 95
+    },
+    {
+     "k": "IS",
+     "C": 2.8706184752466224,
+     "null": 1.4017354652015002,
+     "p": 0.005,
+     "support": 87
+    },
+    {
+     "k": "free1",
+     "C": null,
+     "null": null,
+     "p": null,
+     "support": 86
+    }
+   ],
+   "mass": [
+    428.7,
+    173.6,
+    2.6
+   ],
+   "min_effective_facet": 457.2,
+   "background": 0.0034
+  },
+  {
+   "arm": "f2-F3-x1",
+   "facets": 3,
+   "extra": 1,
+   "cached": true,
+   "M": 3,
+   "names": [
+    "CB",
+    "IS",
+    "free1"
+   ],
+   "n_pins": 6,
+   "units": 62045,
+   "actors": 607,
+   "held_out": 21459.33469156585,
+   "share": [
+    3,
+    3,
+    601
+   ],
+   "mapping": {
+    "per_ideology": [
+     {
+      "ideology": "CB",
+      "support": 72,
+      "auc": 0.7715,
+      "precision": 0.5,
+      "recall": 0.9,
+      "gold": 40
+     },
+     {
+      "ideology": "IS",
+      "support": 67,
+      "auc": 0.7514,
+      "precision": 0.4925,
+      "recall": 0.825,
+      "gold": 40
+     },
+     {
+      "ideology": "free1",
+      "support": 105,
+      "auc": null,
+      "precision": null,
+      "recall": null,
+      "gold": null
+     }
+    ],
+    "macro_auc": 0.7614
+   },
+   "coherence": [
+    {
+     "k": "CB",
+     "C": 2.3864096572728792,
+     "null": 1.5193925142529252,
+     "p": 0.015,
+     "support": 72
+    },
+    {
+     "k": "IS",
+     "C": 4.212171603419635,
+     "null": 1.956698672242517,
+     "p": 0.0,
+     "support": 67
+    },
+    {
+     "k": "free1",
+     "C": 56.9137567297806,
+     "null": 43.42129539446799,
+     "p": 0.23,
+     "support": 105
+    }
+   ],
+   "mass": [
+    4.4,
+    4.4,
+    597.3
+   ],
+   "min_effective_facet": 3.4,
+   "background": 0.0014
+  },
+  {
+   "arm": "f2-F4-x1",
+   "facets": 4,
+   "extra": 1,
+   "cached": true,
+   "M": 3,
+   "names": [
+    "CB",
+    "IS",
+    "free1"
+   ],
+   "n_pins": 6,
+   "units": 62045,
+   "actors": 607,
+   "held_out": 21574.10135203784,
+   "share": [
+    3,
+    304,
+    300
+   ],
+   "mapping": {
+    "per_ideology": [
+     {
+      "ideology": "CB",
+      "support": 32,
+      "auc": 0.6819,
+      "precision": 0.5312,
+      "recall": 0.425,
+      "gold": 40
+     },
+     {
+      "ideology": "IS",
+      "support": 78,
+      "auc": 0.8215,
+      "precision": 0.4487,
+      "recall": 0.875,
+      "gold": 40
+     },
+     {
+      "ideology": "free1",
+      "support": 80,
+      "auc": null,
+      "precision": null,
+      "recall": null,
+      "gold": null
+     }
+    ],
+    "macro_auc": 0.7517
+   },
+   "coherence": [
+    {
+     "k": "CB",
+     "C": 2.988274591361558,
+     "null": 1.7624306572238368,
+     "p": 0.045,
+     "support": 32
+    },
+    {
+     "k": "IS",
+     "C": 25.964481224559304,
+     "null": 3.159650694896036,
+     "p": 0.0,
+     "support": 78
+    },
+    {
+     "k": "free1",
+     "C": 1.9160097364195778,
+     "null": 1.3719040917196543,
+     "p": 0.03,
+     "support": 80
+    }
+   ],
+   "mass": [
+    5.4,
+    300.6,
+    299.4
+   ],
+   "min_effective_facet": 9.4,
+   "background": 0.0026
+  }
+ ],
+ "years": [
+  2012,
+  2022
+ ],
+ "stripped": [
+  "C1",
+  "C2"
+ ],
+ "kept": [
+  "C3"
+ ],
+ "ws": "never modeled",
+ "fingerprint": {
+  "frozen": "2026-09-04 11:27",
+  "coding": {
+   "path": "snapshot/coding.jsonl",
+   "sha8": "b08d4178",
+   "lines": 64459
+  },
+  "actors": {
+   "path": "snapshot/actors.csv",
+   "sha8": "b99c0439"
+  },
+  "parquet": {
+   "path": "snapshot/corpus.parquet",
+   "sha8": "0c0377a8"
+  }
+ }
+}

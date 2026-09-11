@@ -1,0 +1,113 @@
+id,layer,CB,WS,IS,label
+V1,Values,0,0,1,Equality (the same rules and treatment for everyone) [Abstract Liberalism]
+V2,Values,0,0,1,Equity (differential treatment where needed to produce fair outcomes)
+V3,Values,1,0,0,"Individualism (persons are to be judged as individuals, not as group members) [Abstract Liberalism]"
+V4,Values,1,0,0,Personal responsibility (individuals are accountable for their own outcomes) [Abstract Liberalism]
+V5,Values,1,0,0,Meritocracy (rewards should track effort and ability) [Abstract Liberalism]
+V6,Values,1,0,0,Freedom of choice [Naturalization]
+V7,Values,1,0,0,Freedom of association [Naturalization]
+V8,Values,1,0,1,Racial hierarchy as natural order
+V9,Values,1,0,0,Racial purity
+V10,Values,1,0,1,Racial in-group loyalty and preservation
+V11,Values,0,0,1,Justice as the redress of structural inequality
+V12,Values,0,0,1,Solidarity across marginalized groups
+V13,Values,0,0,1,Collective liberation
+A1,Attitudes,1,0,0,"Disapproval of talking about race in schools, workplaces, and public life. [Race salience]"
+A2,Attitudes,1,0,0,Disapproval of people who identify strongly with their racial group. [Race salience]
+A3,Attitudes,0,0,1,Positive evaluation of explicit racial identification and racial group consciousness. [Race salience]
+A4,Attitudes,1,0,0,Positive evaluation of white racial pride and white identity organizing. [Race salience]
+A5,Attitudes,1,0,0,Opposition to affirmative action. [Abstract Liberalism]
+A6,Attitudes,1,0,0,Opposition to reparations. [Abstract Liberalism]
+A7,Attitudes,1,0,0,Opposition to race-conscious policy generally. [Abstract Liberalism]
+A8,Attitudes,0,0,1,Support for affirmative action.
+A9,Attitudes,1,0,0,Support for reparations.
+A10,Attitudes,0,0,1,Support for race-targeted public investment.
+A11,Attitudes,1,0,0,Skepticism toward DEI programs. [White Victimization]
+A12,Attitudes,1,0,0,Disapproval of 'identity politics.'
+A13,Attitudes,1,0,0,Approval of class-based or need-based policies as legitimate substitutes for race-based ones.
+A14,Attitudes,1,0,0,Positive evaluation of a shared national identity over subgroup identities.
+A15,Attitudes,1,0,0,Support for the creation of a white ethnostate.
+A16,Attitudes,1,0,0,Opposition to intermarriage across races.
+A17,Attitudes,1,0,0,Opposition to civil rights law and anti-discrimination enforcement.
+A18,Attitudes,1,0,0,Support for open hostility towards Black people.
+A19,Attitudes,1,0,0,Contempt for whites who support racial equality ('race traitors').
+A20,Attitudes,1,0,0,Positive evaluation of historical figures associated with white rule.
+A21,Attitudes,1,0,0,"Distrust of mainstream media, academia, and government."
+A22,Attitudes,0,0,1,Support for structural reform of policing.
+A23,Attitudes,0,0,1,Support for structural reform of housing.
+A24,Attitudes,0,0,1,Support for structural reform of health systems.
+A25,Attitudes,0,0,1,"Positive evaluation of coalition politics linking racial, gender, economic, and disability justice movements."
+A26,Attitudes,0,0,1,Skepticism toward colorblind or 'universal' policies as likely to reproduce existing hierarchies.
+A27,Attitudes,0,0,1,Positive evaluation of representation of marginalized people in institutions.
+A28,Attitudes,0,0,1,Positive evaluation of participatory decision-making.
+B1,Beliefs,1,0,0,"Race is a superficial trait with no bearing on worth, ability, or character."
+B2,Beliefs,0,0,1,Race is a central category for understanding how society works and how people fare in it. [Race salience]
+B3,Beliefs,0,0,1,Race is meaningful because it is a biological reality. [Race salience]
+B4,Beliefs,0,0,1,"Race is meaningful because, although socially constructed, it structures institutions and life chances. [Race salience]"
+B5,Beliefs,1,0,0,"Race should be de-emphasized in public discourse, policy, and personal identity. [Race salience]"
+B6,Beliefs,0,0,1,"Race should be made explicit and foregrounded in public discourse, policy, and identity. [Race salience]"
+B7,Beliefs,1,0,0,Race-consciousness is itself a cause of division and discrimination. [Race salience]
+B8,Beliefs,0,0,1,Ignoring race allows existing racial arrangements to persist unchallenged. [Race salience]
+B9,Beliefs,0,0,1,"Races are real, biologically fixed categories."
+B10,Beliefs,1,0,0,Races can be ranked from superior to inferior.
+B11,Beliefs,0,0,1,White people are biologically and intellectually superior to other races. [White Superiority]
+B12,Beliefs,0,0,1,White people are culturally superior to other races. [White Superiority]
+B13,Beliefs,0,0,1,"Because they are superior, white people are entitled to dominate socially and politically. [White Superiority]"
+B14,Beliefs,1,0,0,"Racism is essentially individual prejudice held by a small number of bad actors, not a feature of institutions. [Abstract Liberalism]"
+B15,Beliefs,0,0,1,"Racism is embedded in the structure of American institutions (law, housing, education, health care, criminal justice). [Structural racism]"
+B16,Beliefs,0,0,1,Institutional racism operates regardless of the intent of the individuals within institutions. [Structural racism]
+B17,Beliefs,1,0,0,"Structural or institutional racism may exist in some residual form, but its effect on outcomes today is small. [Minimization]"
+B18,Beliefs,1,0,0,"Persistent racial disparities are mostly explained by differences in cultural values, work ethic, and family structure across groups. [Cultural Racism]"
+B19,Beliefs,1,0,0,Persistent racial disparities reflect innate differences in capacity.
+B20,Beliefs,0,0,1,Persistent racial disparities are the product of historical policies and present structural conditions.
+B21,Beliefs,1,0,0,Residential and school segregation reflect people's natural preference to live among those like themselves. [Naturalization]
+B22,Beliefs,1,0,0,"Discrimination against white people is now as common as, or more common than, discrimination against Black people. [White Victimization]"
+B23,Beliefs,1,0,0,"White people are under attack demographically, culturally, and politically. [White Victimization]"
+B24,Beliefs,1,0,0,"Race-conscious policies (affirmative action, race-based scholarships, diversity quotas) are themselves a form of racial discrimination."
+B25,Beliefs,0,0,1,"Social identities (race, gender, class, sexuality, disability, and so on) are multiple and intersecting, not independent or additive. [Multiple, intersecting identities]"
+B26,Beliefs,0,0,1,"A person's social position is the product of how their identities combine, not the sum of each considered separately. [Multiple, intersecting identities]"
+B27,Beliefs,0,0,1,Intersecting identities include dominant as well as marginalized ones. [Identities need not be marginalized]
+B28,Beliefs,0,0,1,Everyone occupies a position in overlapping systems of advantage and disadvantage. [Identities need not be marginalized]
+B29,Beliefs,0,0,1,"Systems of oppression (racism, sexism, classism, heterosexism, ableism) are interlocking and mutually reinforcing."
+B30,Beliefs,0,0,1,Those at the intersections of multiple marginalizations experience harms that are invisible to analyses using any single category.
+B31,Beliefs,0,0,1,Change that begins from the most marginalized improves conditions for everyone. [Margins as focal point]
+B32,Beliefs,1,0,0,Civilization and its major achievements are the products of white peoples.
+B33,Beliefs,1,0,0,Racial mixing degrades the white race.
+B34,Beliefs,1,0,0,Demographic change threatens the survival of the white race.
+B35,Beliefs,1,0,0,Institutions that promote racial equality are captured by hostile elites or out-groups.
+R1,Rationalizations,1,0,0,"The Civil Rights Act and the Fourteenth Amendment already make racial discrimination illegal, so anyone who is actually discriminated against can sue (and similar). [Abstract Liberalism]"
+R2,Rationalizations,1,0,0,"Jim Crow ended sixty years ago and nobody alive today owned slaves, so present-day inequality can't be blamed on racism (and similar). [Minimization]"
+R3,Rationalizations,1,0,0,"The country elected a Black president twice, so racism can't be holding Black people back (and similar). [Minimization]"
+R4,Rationalizations,0,0,0,"There are a lot of rich Black people (Oprah, LeBron James, Black CEOs), how could that happen if there was racism? (and similar) [Minimization]"
+R5,Rationalizations,0,0,1,"Surveys show almost no white people say they would object to a Black neighbor or a Black candidate, so prejudice has essentially disappeared (and similar). [Minimization]"
+R6,Rationalizations,0,0,0,"Asian Americans immigrants out-earn white Americans, which shows that discrimination can't explain the Black-white gap, culture does (and similar). [Cultural Racism]"
+R7,Rationalizations,1,0,0,"The high rate of single-parent households among Black families explains gaps in income, education, and incarceration (and similar). [Cultural Racism]"
+R8,Rationalizations,0,0,1,"Anyone who finishes high school, gets a job, and waits to have children until marriage will not be poor, regardless of race (and similar). [Cultural Racism]"
+R9,Rationalizations,0,0,0,"Black people choose to live in Black neighborhoods, attend Black churches, and go to HBCUs, everyone prefers their own kind, so segregation isn't imposed (and similar). [Naturalization]"
+R10,Rationalizations,1,0,0,"Universities admit Black applicants with lower test scores than white and Asian applicants they reject, which is discrimination against whites and Asians (and similar). [White Victimization]"
+R11,Rationalizations,1,0,0,A white man can't get hired or promoted anymore because companies have diversity targets (and similar). [White Victimization]
+R12,Rationalizations,1,0,0,"Telling young people the system is rigged against them discourages them from trying, students told they are victims do worse (and similar)."
+R13,Rationalizations,1,0,0,"Martin Luther King Jr. said people should be judged by the content of their character, not the color of their skin, race-conscious policy betrays that vision."
+R14,Rationalizations,1,0,0,"Kids don't notice race until adults teach them to, when schools and workplaces stopped talking about race, people just saw each other as classmates and coworkers (and similar). [Race salience]"
+R15,Rationalizations,1,0,0,"Race relations got worse after diversity training and race-focused curricula were introduced, which shows that talking about race creates the resentment it claims to cure (and similar). [Race salience]"
+R16,Rationalizations,1,0,0,"Every other group is allowed to organize openly as a race (Black caucuses, La Raza, Jewish organizations), so whites must do the same or be the only group without a voice (and similar). [Race salience]"
+R17,Rationalizations,0,0,0,"Colorblindness is a trick: whites are told to ignore race while every other group is organizing on it, which guarantees whites lose (and similar). [Race salience]"
+R18,Rationalizations,0,0,1,"After California banned race-conscious admissions (Prop 209), Black and Latino enrollment at Berkeley and UCLA fell sharply, showing that ignoring race locks in existing inequality (and similar). [Race salience]"
+R19,Rationalizations,0,0,1,"'Race-neutral' policies such as legacy admissions, credit scores, or school funding by property tax reproduce racial gaps precisely because they don't account for race (and similar). [Race salience]"
+R20,Rationalizations,0,0,1,"Published IQ test averages differ by race (e.g., claimed 15-point Black-white gap), which proves innate intellectual differences (and similar). [White Superiority]"
+R21,Rationalizations,0,0,0,"Europeans produced the scientific revolution, the printing press, and modern medicine while sub-Saharan Africa built no comparable civilization, which proves white cultural superiority (and similar). [White Superiority]"
+R22,Rationalizations,1,0,0,"Black Americans are 13% of the population but commit roughly half of homicides, which proves innate differences in behavior (and similar)."
+R23,Rationalizations,1,0,0,"Countries and cities that became majority non-white (e.g., Detroit, Zimbabwe, South Africa) declined afterward, which shows white people are needed to run a functioning society (and similar)."
+R24,Rationalizations,1,0,0,"Every animal species sticks to its own kind and defends its territory, so racial loyalty and separation are natural (and similar)."
+R25,Rationalizations,1,0,0,"The Census projects that whites will be a minority by the 2040s, and this was engineered through immigration policy by hostile elites (and similar)."
+R26,Rationalizations,0,0,0,"Mixed-race children have worse identity, health, or social outcomes, which shows racial mixing is harmful (and similar)."
+R27,Rationalizations,1,0,0,"The 1790 Naturalization Act limited citizenship to 'free white persons,' so the founders intended a white nation (and similar)."
+R28,Rationalizations,0,0,0,Scripture identifies white Europeans as God's chosen people or as the true Israelites (and similar).
+R29,Rationalizations,0,0,1,"Black women die in childbirth at roughly three times the rate of white women even when income and education are held constant, a harm visible neither in 'race' nor 'gender' data alone (and similar). [Multiple, intersecting identities]"
+R30,Rationalizations,0,0,1,"The Black-white wealth gap today maps directly onto 1930s redlining maps and onto exclusion from the GI Bill and FHA loans, showing that the gap was produced by policy (and similar). [Structural racism]"
+R31,Rationalizations,0,0,1,The 100-to-1 crack-versus-powder-cocaine sentencing disparity produced racially skewed incarceration without any individual judge needing to be prejudiced (and similar). [Structural racism]
+R32,Rationalizations,0,0,0,"Audit studies show white applicants with a criminal record receive callbacks at the same rate as Black applicants with no record, so discrimination persists even as stated attitudes improve (and similar). [Structural racism]"
+R33,Rationalizations,0,0,0,"A wealthy Black man is still more likely to be stopped by police than a poor white man, a white working-class woman is advantaged by race and disadvantaged by class and gender, so single identities cannot capture anyone's position (and similar). [Identities need not be marginalized]"
+R34,Rationalizations,0,0,0,"White women have been the largest beneficiaries of affirmative action, while the feminist movement largely ignored Black and working-class women's demands, showing that reforms aimed at a group's most advantaged members leave the rest behind (and similar). [Margins as focal point]"
+R35,Rationalizations,0,0,0,"Curb cuts built for wheelchair users ended up helping parents with strollers and delivery workers, designing for the most marginalized benefits everyone (and similar). [Margins as focal point]"
+R36,Rationalizations,0,0,0,"Domestic workers and enslaved people understood how the household and the plantation functioned better than their employers did, those who bear a system's burden see it most clearly (and similar)."

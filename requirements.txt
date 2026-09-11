@@ -1,0 +1,18 @@
+# Python 3.14. Versions are those the published results were produced with.
+#
+# Fitting and the paper's tables and figures need only the first block. The extraction
+# step (run.py) additionally needs the second, and an API credential -- see the README.
+
+numpy==2.5.2
+scipy==1.18.1
+pandas==3.0.5
+pyarrow==25.0.1
+fastparquet==2026.5.0
+typer==0.27.1
+matplotlib==3.11.1
+networkx==3.6.1
+pytest==9.1.1
+
+# extraction only
+anthropic==1.1.0
+openai==3.5.0

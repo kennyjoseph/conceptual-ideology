@@ -1,0 +1,81 @@
+ideology,rank,node,rung,eta,distinctiveness,centrality,theory,in_support,text
+CB,1,A14,A,1.7868,4.5599,2.3531,CB,1,Positive evaluation of a shared national identity over subgroup identities.
+CB,2,B7,B,1.6313,3.9051,1.1585,CB,1,Race-consciousness is itself a cause of division and discrimination. [Race salience]
+CB,3,B1,B,1.6054,3.8025,3.7527,CB,1,"Race is a superficial trait with no bearing on worth, ability, or character."
+CB,4,A7,A,1.6043,3.8056,3.5628,CB|WS,1,Opposition to race-conscious policy generally. [Abstract Liberalism]
+CB,5,B5,B,1.5454,3.5898,2.9478,CB,1,"Race should be de-emphasized in public discourse, policy, and personal identity. [Race salience]"
+CB,6,A12,A,1.379,3.0363,9.9867,CB|WS,1,Disapproval of 'identity politics.'
+CB,7,A6,A,1.3719,2.9401,0.679,CB|WS,1,Opposition to reparations. [Abstract Liberalism]
+CB,8,A1,A,1.3519,2.9512,5.2087,CB,1,"Disapproval of talking about race in schools, workplaces, and public life. [Race salience]"
+CB,9,B23,B,1.3219,2.8546,5.1734,CB|WS,1,"White people are under attack demographically, culturally, and politically. [White Victimization]"
+CB,10,V5,V,1.314,2.8273,3.6961,CB,1,Meritocracy (rewards should track effort and ability) [Abstract Liberalism]
+CB,11,A21,A,1.2302,2.5944,1.0853,WS|IS,1,"Distrust of mainstream media, academia, and government."
+CB,12,B22,B,1.221,2.5555,2.3588,CB|WS,1,"Discrimination against white people is now as common as, or more common than, discrimination against Black people. [White Victimization]"
+CB,13,V3,V,1.0479,2.1099,2.6348,CB,1,"Individualism (persons are to be judged as individuals, not as group members) [Abstract Liberalism]"
+CB,14,A2,A,1.0088,2.0156,3.8436,CB,1,Disapproval of people who identify strongly with their racial group. [Race salience]
+CB,15,A18,A,0.6823,1.2744,6.528,WS,1,Support for open hostility towards Black people.
+CB,16,V4,V,0.6646,1.2362,3.565,CB,1,Personal responsibility (individuals are accountable for their own outcomes) [Abstract Liberalism]
+CB,17,B14,B,0.626,1.1591,2.6297,CB,1,"Racism is essentially individual prejudice held by a small number of bad actors, not a feature of institutions. [Abstract Liberalism]"
+CB,18,V6,V,0.0063,0.0125,5.4653,CB|WS,1,Freedom of choice [Naturalization]
+CB,19,B18,B,0.0027,0.0054,12.8911,CB|WS,1,"Persistent racial disparities are mostly explained by differences in cultural values, work ethic, and family structure across groups. [Cultural Racism]"
+CB,20,B24,B,0.0026,0.0051,17.3825,CB|WS,1,"Race-conscious policies (affirmative action, race-based scholarships, diversity quotas) are themselves a form of racial discrimination."
+CB,21,A4,A,0.0024,0.0047,6.4163,WS,1,Positive evaluation of white racial pride and white identity organizing. [Race salience]
+CB,22,A5,A,0.0021,0.0043,8.6293,CB|WS,1,Opposition to affirmative action. [Abstract Liberalism]
+CB,23,A11,A,0.0018,0.0037,5.0835,CB|WS,1,Skepticism toward DEI programs. [White Victimization]
+CB,24,V10,V,0.0013,0.0002,6.3551,WS,1,Racial in-group loyalty and preservation
+CB,25,B17,B,0.0012,0.0023,7.4145,CB,1,"Structural or institutional racism may exist in some residual form, but its effect on outcomes today is small. [Minimization]"
+CB,26,A19,A,0.0011,0.0022,1.7814,WS,1,Contempt for whites who support racial equality ('race traitors').
+CB,27,A9,A,0.0007,0.0008,0.0,IS,1,Support for reparations.
+CB,28,A15,A,0.0006,0.0013,7.723,WS,1,Support for the creation of a white ethnostate.
+CB,29,B19,B,0.0005,0.001,5.72,WS,1,Persistent racial disparities reflect innate differences in capacity.
+CB,30,B34,B,0.0005,0.001,0.0,WS,1,Demographic change threatens the survival of the white race.
+CB,31,B10,B,0.0004,0.0004,4.2911,WS,1,Races can be ranked from superior to inferior.
+CB,32,A20,A,0.0003,0.0007,1.9875,WS,1,Positive evaluation of historical figures associated with white rule.
+CB,33,A16,A,0.0003,0.0006,0.0,WS,1,Opposition to intermarriage across races.
+CB,34,R2,R,0.0003,0.0005,0.0,CB,1,"Jim Crow ended sixty years ago and nobody alive today owned slaves, so present-day inequality can't be blamed on racism (and similar). [Minimization]"
+CB,35,R7,R,0.0003,0.0005,3.3216,CB|WS,1,"The high rate of single-parent households among Black families explains gaps in income, education, and incarceration (and similar). [Cultural Racism]"
+CB,36,R15,R,0.0003,0.0005,0.0,CB,1,"Race relations got worse after diversity training and race-focused curricula were introduced, which shows that talking about race creates the resentment it claims to cure (and similar). [Race salience]"
+CB,37,R1,R,0.0003,0.0005,0.0,CB,1,"The Civil Rights Act and the Fourteenth Amendment already make racial discrimination illegal, so anyone who is actually discriminated against can sue (and similar). [Abstract Liberalism]"
+CB,38,V8,V,0.0002,-0.0008,2.8178,WS,1,Racial hierarchy as natural order
+CB,39,V9,V,0.0002,0.0003,3.0459,WS,1,Racial purity
+CB,40,A17,A,0.0002,0.0004,0.0,WS,1,Opposition to civil rights law and anti-discrimination enforcement.
+IS,1,V13,V,1.088,4.1111,3.562,IS,1,Collective liberation
+IS,2,V11,V,0.9301,3.2188,1.758,IS,1,Justice as the redress of structural inequality
+IS,3,V12,V,0.916,3.1441,4.0539,IS,1,Solidarity across marginalized groups
+IS,4,B25,B,0.854,2.8046,6.383,IS,1,"Social identities (race, gender, class, sexuality, disability, and so on) are multiple and intersecting, not independent or additive. [Multiple, intersecting identities]"
+IS,5,V2,V,0.8264,2.7023,1.0817,IS,1,Equity (differential treatment where needed to produce fair outcomes)
+IS,6,A25,A,0.7712,2.1982,20.6305,IS,1,"Positive evaluation of coalition politics linking racial, gender, economic, and disability justice movements."
+IS,7,A22,A,0.7698,2.4593,1.8443,IS,1,Support for structural reform of policing.
+IS,8,B20,B,0.7613,2.4236,5.6474,IS,1,Persistent racial disparities are the product of historical policies and present structural conditions.
+IS,9,A27,A,0.6664,2.021,7.0987,IS,1,Positive evaluation of representation of marginalized people in institutions.
+IS,10,B16,B,0.6621,2.0174,3.3452,IS,1,Institutional racism operates regardless of the intent of the individuals within institutions. [Structural racism]
+IS,11,B15,B,0.5848,1.7247,3.1645,IS,1,"Racism is embedded in the structure of American institutions (law, housing, education, health care, criminal justice). [Structural racism]"
+IS,12,B4,B,0.5432,1.577,7.1206,IS,1,"Race is meaningful because, although socially constructed, it structures institutions and life chances. [Race salience]"
+IS,13,A3,A,0.4316,1.2041,1.5962,WS|IS,1,Positive evaluation of explicit racial identification and racial group consciousness. [Race salience]
+IS,14,B6,B,0.3514,0.9531,5.4224,WS|IS,1,"Race should be made explicit and foregrounded in public discourse, policy, and identity. [Race salience]"
+IS,15,B8,B,0.3341,0.9068,1.8676,WS|IS,1,Ignoring race allows existing racial arrangements to persist unchallenged. [Race salience]
+IS,16,B2,B,0.327,0.8795,4.4301,WS|IS,1,Race is a central category for understanding how society works and how people fare in it. [Race salience]
+IS,17,B13,B,0.3035,0.8202,0.0,WS,1,"Because they are superior, white people are entitled to dominate socially and politically. [White Superiority]"
+IS,18,B29,B,0.004,0.008,31.9778,IS,1,"Systems of oppression (racism, sexism, classism, heterosexism, ableism) are interlocking and mutually reinforcing."
+IS,19,A28,A,0.0039,0.0077,18.178,IS,1,Positive evaluation of participatory decision-making.
+IS,20,B26,B,0.0037,0.0073,30.5328,IS,1,"A person's social position is the product of how their identities combine, not the sum of each considered separately. [Multiple, intersecting identities]"
+IS,21,V1,V,0.0033,0.0036,3.7358,CB,1,Equality (the same rules and treatment for everyone) [Abstract Liberalism]
+IS,22,B30,B,0.0028,0.0055,24.4363,IS,1,Those at the intersections of multiple marginalizations experience harms that are invisible to analyses using any single category.
+IS,23,A10,A,0.002,0.0041,8.1634,IS,1,Support for race-targeted public investment.
+IS,24,A26,A,0.0015,0.003,8.7506,IS,1,Skepticism toward colorblind or 'universal' policies as likely to reproduce existing hierarchies.
+IS,25,V8,V,0.001,0.0008,0.0,WS,1,Racial hierarchy as natural order
+IS,26,V10,V,0.001,-0.0002,0.7491,WS,1,Racial in-group loyalty and preservation
+IS,27,B31,B,0.001,0.0019,28.3904,IS,1,Change that begins from the most marginalized improves conditions for everyone. [Margins as focal point]
+IS,28,B28,B,0.0009,0.0018,17.0047,IS,1,Everyone occupies a position in overlapping systems of advantage and disadvantage. [Identities need not be marginalized]
+IS,29,B27,B,0.0008,0.0015,20.8829,IS,1,Intersecting identities include dominant as well as marginalized ones. [Identities need not be marginalized]
+IS,30,B12,B,0.0004,0.001,0.0,WS,1,White people are culturally superior to other races. [White Superiority]
+IS,31,A8,A,0.0003,0.0007,0.0937,IS,1,Support for affirmative action.
+IS,32,A24,A,0.0002,0.0005,1.7835,IS,1,Support for structural reform of health systems.
+IS,33,B11,B,0.0002,0.0006,0.0,WS,1,White people are biologically and intellectually superior to other races. [White Superiority]
+IS,34,B3,B,0.0002,0.0002,0.0001,WS,1,Race is meaningful because it is a biological reality. [Race salience]
+IS,35,A23,A,0.0002,0.0004,3.088,IS,1,Support for structural reform of housing.
+IS,36,R30,R,0.0001,0.0001,0.0,IS,1,"The Black-white wealth gap today maps directly onto 1930s redlining maps and onto exclusion from the GI Bill and FHA loans, showing that the gap was produced by policy (and similar). [Structural racism]"
+IS,37,R18,R,0.0,0.0001,0.0,IS,1,"After California banned race-conscious admissions (Prop 209), Black and Latino enrollment at Berkeley and UCLA fell sharply, showing that ignoring race locks in existing inequality (and similar). [Race salience]"
+IS,38,R29,R,0.0,0.0001,0.0,IS,1,"Black women die in childbirth at roughly three times the rate of white women even when income and education are held constant, a harm visible neither in 'race' nor 'gender' data alone (and similar). [Multiple, intersecting identities]"
+IS,39,R31,R,0.0,0.0001,0.0,IS,1,The 100-to-1 crack-versus-powder-cocaine sentencing disparity produced racially skewed incarceration without any individual judge needing to be prejudiced (and similar). [Structural racism]
+IS,40,B9,B,0.0,0.0001,0.3872,WS,1,"Races are real, biologically fixed categories."

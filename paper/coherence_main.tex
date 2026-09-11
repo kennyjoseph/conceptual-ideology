@@ -1,0 +1,24 @@
+Finally, rather than incorporate structural coherence into the model, we treat it as an
+evaluation measure that identifies which of the recovered ideologies relate more strongly
+to their own concepts than to concepts outside them. For ideology $k$ with support
+$S_k=\{u:\max_f\eta_{k,f,u}>0\}$, we compare the association weight among concepts inside
+$S_k$ to the weight crossing its boundary:
+\[
+  C_k \;=\;
+  \frac{\sum_{(u,u')\in\Pcal,\; u\in S_k,\; u'\in S_k} W_{k,uu'}}
+       {\sum_{(u,u')\in\Pcal,\; u\in S_k \,\oplus\, u'\in S_k} W_{k,uu'}}.
+\]
+Up to reparameterization this is the weighted conductance of $S_k$
+\citep{shi2000,kannan2004}, since $\phi(S_k)=c_{S_k}/(2m_{S_k}+c_{S_k})=1/(1+2C_k)$ for
+internal weight $m_{S_k}$ and cut $c_{S_k}$; we report the ratio rather than $\phi$ only
+because $C_k=1$ marks the point the framework's definition asserts, namely as much
+association weight inside an ideology as crossing its boundary. We use a different null
+than is standard for such measures: instead of a configuration model, we compare $C_k$
+against $200$ random supports matched to $S_k$ in size and in composition, sampled
+stratified by concept type and, within type, by weighted-degree quartile in $W_k$.
+Composition matters here because $\CC5$ leaves some rung pairs structurally incapable of
+carrying weight, so a support drawn from a single rung would score well whatever concepts
+it contained. Discarding draws for which the ratio is undefined, we report
+$p=\#\{C_k^{\text{null}}\ge C_k\}/\#\{\text{finite }C_k^{\text{null}}\}$, whose smallest
+attainable value at $200$ permutations is $.005$; further detail is in
+Appendix~\ref{app:coherence}.

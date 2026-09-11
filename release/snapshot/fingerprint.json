@@ -1,0 +1,17 @@
+{
+  "frozen": "2026-09-04 11:27",
+  "release": "anonymized: no tweet text, no bios, pseudonymous actor ids",
+  "coding": {
+    "path": "coding.jsonl",
+    "sha8": "b08d4178",
+    "lines": 64459
+  },
+  "actors": {
+    "path": "actors.csv",
+    "sha8": "d66995e0"
+  },
+  "parquet": {
+    "path": "corpus.parquet",
+    "sha8": "bacc8d6d"
+  }
+}

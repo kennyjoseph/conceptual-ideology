@@ -1,0 +1,193 @@
+\section{Evaluation in detail}\label{app:evaluation}
+
+Four quantities are reported for every arm of the ladder. They answer different
+questions and are not interchangeable: held-out fit asks whether the composed rates
+predict expressions the model has not seen; concept-mapping AUC asks whether the
+components landed on the codebook's concepts without being told them; structural
+coherence asks whether each component's association mass stays inside its own support;
+and the actor-share check asks whether the components are describing distinct
+populations at all. This appendix states each precisely, together with what it cannot
+support.
+
+\subsection{Held-out fit}\label{app:heldout}
+
+\paragraph{The split.} Before fitting, and independently for each actor $a$,
+$\mathrm{round}(0.1\,n_a)$ of that actor's $n_a$ units are drawn without replacement and
+withheld. Stratifying within actor is not cosmetic: $\mu_a$ and $\gamma_a$ are
+actor-level parameters, so an unstratified draw can leave a low-volume actor with no
+training units, making its parameters unestimable, or with no held-out units, making its
+fit unscorable. In the reported corpus the split withholds $6{,}195$ of $62{,}045$ units
+($9.98\%$). One consequence follows from the rounding: $\mathrm{round}(0.1\,n_a)=0$
+whenever $n_a\le 5$, so the $63$ actors with five or fewer units contribute no held-out
+units. They are still fitted, and still constrain the shared parameters, but they do not
+enter the score.
+
+\paragraph{What the training mask governs.} Everything derived from data is derived from
+the training units alone: the fixed background rates $m_u$, the kernel-weighted pair
+counts $A^{(\delta)}$ and their exposure $N^{(\delta)}$, and every fitted parameter. The
+held-out units enter only at scoring time.
+
+\paragraph{The score.} Units are collapsed onto the (actor, period) grid, each cell $g$
+storing the number of units $n_g$ it contains and the summed extractor confidences
+$X_{gu}$ per node; the reported corpus gives $2{,}796$ training cells and $1{,}317$
+held-out cells. The collapse is exact rather than an approximation, since the Poisson
+log-likelihood of units sharing a rate depends on the data only through that count and
+that sum. Writing $\hat z_{gu}$ for the fitted log rate,
+\[
+  \mathrm{HO}\;=\;\sum_{g\in\text{test}}\sum_u\Big[\,n_g\,e^{\hat z_{gu}}
+  \;-\;X_{gu}\,\hat z_{gu}\Big],
+\]
+the Poisson negative log-likelihood without the data-only factorial term. Lower is
+better. No marginalisation is required, and none is performed: the model has no free
+per-unit parameter, so a held-out unit is scored under rates fitted entirely from other
+units.
+
+\paragraph{What it tests.} This is a \emph{within-actor} holdout. Each actor's $\mu_a$
+and $\theta_a$ are estimated from their own training units, so the question is whether
+the profiles and the composed rate generalise to that actor's unseen expressions---not
+whether the model can place an actor it has never encountered.
+
+\paragraph{Three cautions.} First, $\mathrm{HO}$ is a sum rather than a mean, so it is
+comparable only across arms fitted on an identical split; every arm reported here shares
+one split (same seed, same units). Second, its scale is easy to over-read: the reported
+values correspond to $\approx 3.50$ nats per held-out unit, or $\approx 0.031$ per
+(unit, node) cell, so a gap of a few hundred nats between arms is a difference of
+$\sim\!0.03$ nats per unit. Third, and decisively for model selection,
+$\mathrm{HO}$ is not free of the parameter count: each added facet gives every actor a
+further logit. In our results its best three values all belong to arms in which one
+component has absorbed the corpus (Section~\ref{app:share}), which is why it is never
+read alone.
+
+\paragraph{Why not whole-actor holdout.} Section~\ref{sec:validation} makes whole-actor
+holdout (V7) the criterion for the facet count, and that is right when actor identity is
+in the design. It is the wrong instrument here, for a structural rather than a
+statistical reason: V7 scores a held-out actor with their parameters at the prior and
+their membership from $\beta^\top m_a$ alone, so with an intercept-only design
+\emph{every} held-out actor receives an identical membership. The model cannot tell them
+apart, pins cannot help---a held-out actor is by definition unpinned---and V7 therefore
+cannot reward a facet structure for capturing actor variation. We accordingly select on
+held-out units and report the facet question as unresolved rather than settled.
+
+\subsection{Concept-mapping AUC}\label{app:auc}
+
+Because $\CC1$ is withheld during fitting, the codebook's own assignment of concepts to
+ideologies is available as an evaluation set: nothing in the fit has seen it. Let
+$G_k\subseteq\{1,\dots,K\}$ collect the concepts the codebook assigns to ideology $k$.
+Ranking all $K$ concepts by the fitted profile $\max_f\eta_{k,f,u}$, we report the
+rank-based (Mann--Whitney) area under the ROC curve,
+\[
+  \mathrm{AUC}_k=\frac{1}{|G_k|\,|G_k^{c}|}
+  \sum_{u\in G_k}\ \sum_{u'\notin G_k}
+  \Big[\1\{\eta_{k,u}>\eta_{k,u'}\}+\tfrac12\,\1\{\eta_{k,u}=\eta_{k,u'}\}\Big],
+\]
+with $0.5$ chance and ties taking average ranks. Two properties recommend it here. It is
+scored as multi-label retrieval rather than as a classification, which the codebook
+requires: $22$ of the $112$ concepts carry more than one ideology, and no concept is
+assigned to both colour-blindness and intersectionality. And it is free of where the
+support threshold falls, unlike the precision and recall of $S_k$, which we report beside
+it in Table~\ref{tab:ladder-full} because $S_k$ is the set the coherence statistic and
+the edge tables actually use. We report the macro average
+$\overline{\mathrm{AUC}}=|\mathcal{K}|^{-1}\sum_{k\in\mathcal{K}}\mathrm{AUC}_k$ over the
+ideologies the codebook labels; a free component has no $G_k$ and is excluded rather than
+scored against a mapping it was never given.
+
+\subsection{Structural coherence and its null}\label{app:coherence}
+
+\paragraph{The statistic.} For ideology $k$ with support
+$S_k=\{u:\max_f\eta_{k,f,u}>0\}$,
+\[
+  C_k=\frac{\sum_{(u,u')\in\PP,\;u\in S_k,\;u'\in S_k}W_{k,uu'}}
+           {\sum_{(u,u')\in\PP,\;u\in S_k\,\oplus\,u'\in S_k}W_{k,uu'}},
+\]
+where $\oplus$ is exclusive or, so the denominator collects exactly the pairs with one
+endpoint inside the support and one outside. $C_k>1$ says the ideology's concepts relate
+more strongly to each other than across its own boundary. It is computed on a fit with
+the $\CC6$ sparsity gate \emph{off}, so that it is able to fail; the gate is only ever
+switched on afterwards.
+
+\paragraph{Relation to conductance.} $C_k$ is not a new statistic, and it is worth
+naming its counterpart in the network-clustering literature before reporting it. Writing
+$m_{S}$ for the internal edge weight of a set $S$ and $c_{S}$ for its cut,
+$C_k=m_{S_k}/c_{S_k}$ is one-to-one with the weighted \emph{conductance} of $S_k$:
+\[
+  \phi(S_k)=\frac{c_{S_k}}{2m_{S_k}+c_{S_k}}=\frac{1}{1+2C_k},
+  \qquad C_k=\frac{1-\phi(S_k)}{2\phi(S_k)} .
+\]
+The two therefore order supports identically and either may be reported; we use the ratio
+because its unit is the one the framework's definition of an ideology asserts---$C_k=1$
+is as much association weight inside the support as crossing its boundary. In the
+selected arm colour-blindness has $m_{S}=86.6$, $c_{S}=59.9$, hence $C_k=1.45$ and
+$\phi=0.257$; intersectionality has $m_{S}=138.6$, $c_{S}=31.6$, hence $C_k=4.38$ and
+$\phi=0.102$. The weaker condition $2m_{S}>c_{S}$, i.e.\ $C_k>1/2$, is
+Radicchi et al.'s \emph{weak community}; the criterion used here is the stricter
+$C_k>1$. The permutation null below plays the role modularity's configuration null plays
+for internal density, with one difference that matters in this setting: it preserves the
+\emph{type} composition of the support as well as its degree profile, because $\CC5$
+makes certain rung pairs structurally incapable of carrying mass.
+
+\paragraph{Why a null is required.} $C_k$ is not interpretable on its own. $W$'s mass
+concentrates on a few high-degree nodes, so a support assembled from hubs scores well
+whatever it contains, and a support drawn from one rung scores differently from one
+spread across rungs, since the ladder constraint governs which pairs may carry mass at
+all. Matching on size alone would make almost any support look coherent.
+
+\paragraph{The null.} Each of $200$ null supports is drawn to match $S_k$ in size
+\emph{and} composition. All $K$ concepts are bucketed by a two-part stratum: concept type
+($V/A/B/R$), and within type the quartile of weighted degree in $W_k$. A draw then takes
+from each bucket exactly as many concepts as $S_k$ contains, sampled without replacement,
+and $C_k$ is recomputed with that support substituted into the \emph{same} fitted $W_k$.
+For colour-blindness in the selected arm, the support of $58$ decomposes as $8$ values,
+$18$ attitudes, $16$ beliefs and $16$ rationalisations, with the quartile counts of
+Table~\ref{tab:ladder-full}'s companion; every null support reproduces those counts
+exactly. The resulting null has mean $0.716$ and standard deviation $0.154$ against an
+observed $C_k=1.445$.
+
+\paragraph{The $p$-value.} Non-finite draws (a support with zero boundary mass) are
+discarded before comparison, so
+\[
+  p=\frac{\#\{C_k^{\text{null}}\ge C_k\}}{\#\{\text{finite }C_k^{\text{null}}\}} .
+\]
+With $200$ permutations the smallest attainable value is $.005$; a reported $p<.005$
+means no admissible null draw matched the observed statistic.
+
+\paragraph{Undefined cases.} Two failures are reported rather than smoothed over. If a
+component has positive inside mass and \emph{exactly zero} boundary mass, $C_k$ is
+infinite and the null admits no comparison. If it has no association mass at all,
+$C_k$ is undefined; we print a dash. The second is the stronger failure, and it is what
+white supremacy exhibits at $F_k\ge2$: the component acquires no edges, so there is no
+structure whose coherence could be assessed.
+
+\paragraph{What the test does not do.} The permutation moves the \emph{support}, holding
+$W_k$ fixed. It therefore asks whether the fitted support is better placed than a matched
+random support on the same network---not whether the network itself carries more
+structure than chance. That second question is the zero-ideology null's
+(Section~\ref{sec:inference}).
+
+\paragraph{A limitation of the matching.} Under a sparse $W$, degree ties at zero
+collapse the quartile bins. In the selected arm all $36$ rationalisations fall in a
+single degree stratum, because most have degree exactly zero and every tie lands at the
+same bin edge; the same happens partially in the belief rung. Degree matching is
+therefore strongest where the network is dense and weakest exactly where it is sparse---
+and the rationalisation rung is both the sparsest and the source of $16$ of
+colour-blindness's $58$ support nodes.
+
+\subsection{The actor-share check}\label{app:share}
+
+The three quantities above can all improve while the model ceases to describe a
+population. We therefore report, for each component, the percentage of actors whose
+ideology margin $\vartheta_{a,k}$ is largest on it. This uses only the model's own
+assignment---no external labels---and it is the check that catches degeneracy: a
+component that has absorbed the corpus shows a share near $100\%$, and one that has been
+emptied shows a share of $0\%$. A share printed as $0\%$ is in fact three actors, namely
+that component's own pinned actors held at their fixed membership; components do not
+shrink gradually, they empty out to the supervision.
+
+Two readings in the main table depend on it. Held-out fit's three best values belong to
+arms with a component at $99\%$ or above, so the criterion prefers collapse. And every
+arm that models white supremacy has a component at $0\%$: white supremacy itself at
+$F_k\ge2$, and colour-blindness at $F_k=1$, where white supremacy takes the right-hand
+position ($28\%$ of actors) and leaves colour-blindness with only its pins. We also
+report the smallest effective number of actors on any facet, an inverse-Simpson count
+$1/\sum_a(\theta_{a,kf}/\sum_{a'}\theta_{a',kf})^2$, which catches the complementary
+failure: a component carried by a handful of accounts rather than by none. It falls to
+$4.4$ in the white-supremacy arms against $364$--$514$ elsewhere.

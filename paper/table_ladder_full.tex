@@ -1,0 +1,70 @@
+\begin{table*}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Full results for every arm of the facet ladder. Arm-level rows give the Poisson held-out loss, the macro concept-mapping AUC, the smallest effective number of actors on any facet (an inverse-Simpson count: 1 means a facet carried by a single actor, 607 the number of actors), and the mean background share $\theta_{a,0}$. Component rows give the fitted support $|S_k|$ and, against the withheld codebook assignment $G_k$, the ranking AUC and the precision and recall of $S_k$; the share of actors whose ideology margin is largest on that component; the membership mass; and the coherence ratio $C_k$ with the mean of its matched permutation null and the resulting $p$. Free components have no $G_k$ and are not scored. A dash for $C_k$ marks a component with no association mass; $\infty$ marks positive mass inside the support with none crossing its boundary, for which the null admits no comparison. With 200 permutations the smallest attainable $p$ is .005.}
+\label{tab:ladder-full}
+\begin{tabular}{@{}llrrrrrrrrrr@{}}
+\toprule
+& & \multicolumn{4}{c}{Concept mapping} & \multicolumn{2}{c}{Actors} & \multicolumn{3}{c}{Coherence} \\
+\cmidrule(lr){3-6}\cmidrule(lr){7-8}\cmidrule(lr){9-11}
+Arm & Comp. & $|S_k|$ & $|G_k|$ & AUC & Prec./Rec. & Share & Mass & $C_k$ & Null & $p$ \\
+\midrule
+\multicolumn{11}{@{}l}{\texttt{F1}\quad \footnotesize $M{=}2$, 6 pins, 62,045 units, 607 actors; held-out 21,680, $\overline{\mathrm{AUC}}$ 0.878, min.\ eff.\ actors/facet 504.6, background 0.005} \\
+& CB & 58 & 40 & 0.853 & 0.59/0.85 & 36\% & 275.0 & \textbf{1.45} & 0.72 & $<$.005 \\
+& IS & 44 & 40 & 0.903 & 0.75/0.82 & 64\% & 329.0 & \textbf{4.38} & 0.86 & $<$.005 \\
+\addlinespace[1.5pt]
+\multicolumn{11}{@{}l}{\texttt{F2}\quad \footnotesize $M{=}2$, 6 pins, 62,045 units, 607 actors; held-out 21,468, $\overline{\mathrm{AUC}}$ 0.812, min.\ eff.\ actors/facet 458.9, background 0.004} \\
+& CB & 84 & 40 & 0.776 & 0.45/0.95 & 45\% & 298.5 & \textbf{2.24} & 1.36 & .005 \\
+& IS & 84 & 40 & 0.848 & 0.46/0.97 & 55\% & 306.2 & \textbf{23.29} & 1.80 & $<$.005 \\
+\addlinespace[1.5pt]
+\multicolumn{11}{@{}l}{\texttt{F3}\quad \footnotesize $M{=}2$, 6 pins, 62,045 units, 607 actors; held-out 21,512, $\overline{\mathrm{AUC}}$ 0.728, min.\ eff.\ actors/facet 411.8, background 0.004} \\
+& CB & 91 & 40 & 0.650 & 0.38/0.88 & 93\% & 389.5 & 4.05 & 2.96 & .025 \\
+& IS & 60 & 40 & 0.806 & 0.53/0.80 & 7\% & 215.4 & 1.15 & 1.23 & .600 \\
+\addlinespace[1.5pt]
+\multicolumn{11}{@{}l}{\texttt{F4}\quad \footnotesize $M{=}2$, 6 pins, 62,045 units, 607 actors; held-out 21,593, $\overline{\mathrm{AUC}}$ 0.762, min.\ eff.\ actors/facet 363.8, background 0.004} \\
+& CB & 94 & 40 & 0.674 & 0.40/0.95 & 86\% & 346.3 & 7.02 & 4.93 & .055 \\
+& IS & 70 & 40 & 0.849 & 0.51/0.90 & 14\% & 258.5 & \textbf{1.85} & 0.96 & $<$.005 \\
+\addlinespace[1.5pt]
+\multicolumn{11}{@{}l}{\texttt{F1+free}\quad \footnotesize $M{=}3$, 6 pins, 62,045 units, 607 actors; held-out 21,688, $\overline{\mathrm{AUC}}$ 0.869, min.\ eff.\ actors/facet 514.4, background 0.004} \\
+& CB & 62 & 40 & 0.838 & 0.55/0.85 & 38\% & 282.0 & \textbf{1.40} & 0.71 & .005 \\
+& IS & 53 & 40 & 0.900 & 0.68/0.90 & 62\% & 320.2 & \textbf{8.93} & 1.08 & $<$.005 \\
+& free & 59 & -- & -- & -- & 0\% & 2.5 & -- & -- & -- \\
+\addlinespace[1.5pt]
+\multicolumn{11}{@{}l}{\texttt{F2+free}\quad \footnotesize $M{=}3$, 6 pins, 62,045 units, 607 actors; held-out 21,463, $\overline{\mathrm{AUC}}$ 0.696, min.\ eff.\ actors/facet 457.2, background 0.003} \\
+& CB & 95 & 40 & 0.627 & 0.40/0.95 & 96\% & 428.7 & \textbf{7.24} & 5.09 & .005 \\
+& IS & 87 & 40 & 0.765 & 0.43/0.93 & 4\% & 173.6 & \textbf{2.87} & 1.40 & .005 \\
+& free & 86 & -- & -- & -- & 0\% & 2.6 & -- & -- & -- \\
+\addlinespace[1.5pt]
+\multicolumn{11}{@{}l}{\texttt{F3+free}\quad \footnotesize $M{=}3$, 6 pins, 62,045 units, 607 actors; held-out 21,459, $\overline{\mathrm{AUC}}$ 0.761, min.\ eff.\ actors/facet 3.4, background 0.001} \\
+& CB & 72 & 40 & 0.771 & 0.50/0.90 & 0\% & 4.4 & 2.39 & 1.52 & .015 \\
+& IS & 67 & 40 & 0.751 & 0.49/0.82 & 0\% & 4.4 & \textbf{4.21} & 1.96 & $<$.005 \\
+& free & 105 & -- & -- & -- & 99\% & 597.3 & 56.91 & 43.42 & .230 \\
+\addlinespace[1.5pt]
+\multicolumn{11}{@{}l}{\texttt{F4+free}\quad \footnotesize $M{=}3$, 6 pins, 62,045 units, 607 actors; held-out 21,574, $\overline{\mathrm{AUC}}$ 0.752, min.\ eff.\ actors/facet 9.4, background 0.003} \\
+& CB & 32 & 40 & 0.682 & 0.53/0.42 & 0\% & 5.4 & 2.99 & 1.76 & .045 \\
+& IS & 78 & 40 & 0.822 & 0.45/0.88 & 50\% & 300.6 & \textbf{25.96} & 3.16 & $<$.005 \\
+& free & 80 & -- & -- & -- & 49\% & 299.4 & 1.92 & 1.37 & .030 \\
+\addlinespace[1.5pt]
+\multicolumn{11}{@{}l}{\texttt{F1-ws}\quad \footnotesize $M{=}3$, 9 pins, 62,045 units, 607 actors; held-out 21,729, $\overline{\mathrm{AUC}}$ 0.769, min.\ eff.\ actors/facet 13.7, background 0.005} \\
+& CB & 45 & 40 & 0.754 & 0.53/0.60 & 0\% & 6.4 & 2.74 & 1.40 & .015 \\
+& WS & 52 & 54 & 0.643 & 0.63/0.61 & 28\% & 248.8 & \textbf{2.02} & 0.51 & $<$.005 \\
+& IS & 46 & 40 & 0.909 & 0.74/0.85 & 72\% & 348.8 & \textbf{5.98} & 1.11 & $<$.005 \\
+\addlinespace[1.5pt]
+\multicolumn{11}{@{}l}{\texttt{F2-ws}\quad \footnotesize $M{=}3$, 9 pins, 62,045 units, 607 actors; held-out 21,542, $\overline{\mathrm{AUC}}$ 0.717, min.\ eff.\ actors/facet 8.5, background 0.003} \\
+& CB & 85 & 40 & 0.666 & 0.41/0.88 & 86\% & 370.3 & \textbf{3.94} & 2.77 & .005 \\
+& WS & 66 & 54 & 0.647 & 0.56/0.69 & 0\% & 5.0 & -- & -- & -- \\
+& IS & 60 & 40 & 0.837 & 0.57/0.85 & 14\% & 229.9 & \textbf{1.65} & 1.00 & $<$.005 \\
+\addlinespace[1.5pt]
+\multicolumn{11}{@{}l}{\texttt{F3-ws}\quad \footnotesize $M{=}3$, 9 pins, 62,045 units, 607 actors; held-out 21,450, $\overline{\mathrm{AUC}}$ 0.658, min.\ eff.\ actors/facet 4.4, background 0.001} \\
+& CB & 53 & 40 & 0.700 & 0.45/0.60 & 0\% & 4.3 & 3.55 & 2.39 & .040 \\
+& WS & 62 & 54 & 0.626 & 0.52/0.59 & 0\% & 4.3 & -- & -- & -- \\
+& IS & 97 & 40 & 0.648 & 0.36/0.88 & 99\% & 597.6 & \textbf{50.27} & 20.40 & $<$.005 \\
+\addlinespace[1.5pt]
+\multicolumn{11}{@{}l}{\texttt{F4-ws}\quad \footnotesize $M{=}3$, 9 pins, 62,045 units, 607 actors; held-out 21,475, $\overline{\mathrm{AUC}}$ 0.658, min.\ eff.\ actors/facet 6.0, background 0.001} \\
+& CB & 40 & 40 & 0.680 & 0.47/0.47 & 0\% & 4.3 & 3.00 & 2.28 & .090 \\
+& WS & 55 & 54 & 0.644 & 0.56/0.57 & 0\% & 4.3 & -- & -- & -- \\
+& IS & 97 & 40 & 0.651 & 0.36/0.88 & 99\% & 597.8 & \textbf{48.38} & 18.99 & $<$.005 \\
+\bottomrule
+\end{tabular}
+\end{table*}
