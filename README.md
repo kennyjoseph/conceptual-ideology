@@ -10,9 +10,8 @@ equation, so the objective is a composite likelihood rather than a posterior.
 
 ## Data statement
 
-The corpus is 64,459 tweets from 609 accounts, 2009–2023; the paper fits the 2012–2022
-window (62,045 units, 607 actors). **The tweets themselves are not redistributed here.**
-What the model consumes is the extractor's output — which codebook concepts each unit
+The corpus is 62,045 tweets from 607 accounts from 2012–2022. **The tweets themselves are not redistributed here.**
+What the model consumes is the output of a zero-shot labeler (the "extractor") — which codebook concepts each unit
 expresses, with what confidence, in which source-by-stance cell — and that derivative
 carries no tweet content.
 
